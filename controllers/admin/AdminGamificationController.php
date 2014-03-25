@@ -295,7 +295,7 @@ class AdminGamificationController extends ModuleAdminController
 	public function ajaxProcessCloseAdvice()
 	{
 		$id_advice = Advice::getIdByIdPs((int)Tools::getValue('id_advice'));
-		Db::getInstance()->execute('UPDATE `ps_advice` SET `hide` =  \'1\' WHERE  `id_advice` = '.(int)$id_advice.';');
+		Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'advice` SET `hide` =  \'1\' WHERE  `id_advice` = '.(int)$id_advice.';');
 		die();
 	}
 }
