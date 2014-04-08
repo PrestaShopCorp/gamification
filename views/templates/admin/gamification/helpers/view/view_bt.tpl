@@ -37,7 +37,6 @@
 		      },
 	 	});
 		$('#gamification_progressbar_tab').progressbar("value", {$current_level_percent|intval} );
-		initBubbleDescription();
 	});
 	var admintab_gamification = true;
 

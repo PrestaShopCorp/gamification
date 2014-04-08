@@ -82,6 +82,8 @@ function gamificationTasks()
 			$(".preactivationLink").on('click', function() {
 				preactivationLinkClick($(this).attr("rel"));
 			});
+			
+			$('.gamification_badges_img').tooltip();
 		}
 	});
 }
@@ -137,24 +139,6 @@ function disabledGamificationNotification()
 	});
 }
 
-function initBubbleDescription()
-{
-	$('.badge_square').each( function () {
-		if ($(this).children('.gamification_badges_description').text().length)
-		{
-			$(this).CreateBubblePopup({
-				position : 'top',
-				openingDelay:0,
-				alwaysVisible: false,
-				align	 : 'center',
-				innerHtml: $(this).children('.gamification_badges_description').text(),
-				innerHtmlStyle: { color:'#000',  'text-align':'center' },
-				themeName: 'black',
-				themePath: '../modules/gamification/views/jquerybubblepopup-themes'		 
-			});
-		}
-	});
-}
 
 
 function filterBadge(type)
