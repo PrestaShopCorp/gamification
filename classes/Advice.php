@@ -77,10 +77,10 @@ class Advice extends ObjectModel
 		return (int)Db::getInstance()->getValue($query);
 	}
 
-	public static function getValidatedByIdTab($id_tab, $premium = false, $addons = false)
+		public static function getValidatedByIdTab($id_tab, $premium = false, $addons = false)
 	{
 		$query = new DbQuery();
-		$query->select('a.`id_ps_advice`, a.`selector`, a.`location`, al.`html`');
+		$query->select('a.`id_ps_advice`, a.`selector`, a.`location`, al.`html`, a.`weight`');
 		$query->from('advice', 'a');
 		$query->join('
 			LEFT JOIN `'._DB_PREFIX_.'advice_lang` al ON al.`id_advice` = a.`id_advice`
@@ -102,6 +102,7 @@ class Advice extends ObjectModel
 					'location' => $res['location'],
 					'html' => $res['html'],
 					'id_ps_advice' => $res['id_ps_advice'],
+					'weight' => $res['weight']
 					);
 		if (!$premium)
 			foreach ($advices as $k => $a)
