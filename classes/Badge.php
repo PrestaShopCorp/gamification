@@ -45,6 +45,8 @@ class Badge extends ObjectModel
 	public $name;
 	
 	public $description;
+
+	public $awb;
 	
 	const BAGDE_IMG_URL = 'gamification.prestashop.com/api/getBadgeImg';
 	
@@ -62,6 +64,7 @@ class Badge extends ObjectModel
 			'group_position' => 	array('type' => self::TYPE_INT, 'validate' => 'isInt'),
 			'scoring' =>			array('type' => self::TYPE_INT, 'validate' => 'isInt'),
 			'validated' =>			array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
+			'awb' =>				array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
 
 			// Lang fields
 			'name' => 				array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isGenericName', 'required' => true, 'size' => 64),

@@ -46,17 +46,22 @@ class AdminGamificationController extends ModuleAdminController
 	public function renderView()
 	{
 		$badges_feature = new Collection('badge', $this->context->language->id);
-		$badges_feature->sqlWhere('type = feature AND (awb = 0 OR (awb = 1 AND validated = 1))');
+		$badges_feature->sqlWhere('type = \'feature\' AND awb != 1');
 		$badges_feature->orderBy('id_group');
 		$badges_feature->orderBy('group_position');
+
+		$badges_only_visible = new Collection('badge', $this->context->language->id);
+		$badges_only_visible->sqlWhere('awb = 1 AND validated = 1');
+		$badges_only_visible->orderBy('id_group');
+		$badges_only_visible->orderBy('group_position');
 		
 		$badges_achievement = new Collection('badge', $this->context->language->id);
-		$badges_feature->sqlWhere('type = achievement AND (awb = 0 OR (awb = 1 AND validated = 1))');
+		$badges_feature->sqlWhere('type = \'achievement\' AND awb != 1');
 		$badges_achievement->orderBy('id_group');
 		$badges_achievement->orderBy('group_position');
 		
 		$badges_international = new Collection('badge', $this->context->language->id);
-		$badges_feature->sqlWhere('type = international AND (awb = 0 OR (awb = 1 AND validated = 1))');
+		$badges_feature->sqlWhere('type = \'international\' AND awb != 1');
 		$badges_international->orderBy('id_group');
 		$badges_international->orderBy('group_position');
 		
@@ -73,7 +78,7 @@ class AdminGamificationController extends ModuleAdminController
 			$groups['badges_'.$res['type']][$res['id_group']] = $res['group_name'];
 
 		$badges_type = array(
-			'badges_feature' => array('name' => $this->l('Features'), 'badges' => $badges_feature),
+			'badges_feature' => array('name' => $this->l('Features'), 'badges' => $badges_feature, 'badges_specials' => $badges_only_visible),
 			'badges_achievement' => array('name' => $this->l('Achievements'), 'badges' => $badges_achievement),
 			'badges_international' => array('name' => $this->l('International'), 'badges' => $badges_international),
 		);

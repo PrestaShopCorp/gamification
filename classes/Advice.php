@@ -45,6 +45,8 @@ class Advice extends ObjectModel
 	public $start_day;
 	
 	public $stop_day;
+
+	public $weight;
 	
 	/**
 	 * @see ObjectModel::$definition
@@ -60,7 +62,8 @@ class Advice extends ObjectModel
 			'location' =>		array('type' => self::TYPE_STRING),
 			'validated' =>		array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
 			'start_day' =>		array('type' => self::TYPE_INT, 'validate' => 'isInt'),
-			'stop_day' =>			array('type' => self::TYPE_INT, 'validate' => 'isInt'),
+			'stop_day' =>		array('type' => self::TYPE_INT, 'validate' => 'isInt'),
+			'weight' =>			array('type' => self::TYPE_INT, 'validate' => 'isInt'),
 
 			// Lang fields
 			'html' => 			array('type' => self::TYPE_HTML, 'lang' => true, 'required' => true, 'validate' => 'isString'),
