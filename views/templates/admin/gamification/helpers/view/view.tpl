@@ -76,6 +76,7 @@
 </fieldset>
 <div class="clear"><br/></div>
 
+
 {foreach from=$badges_type key=key item=type}
 <fieldset>
 	<legend><img src="../modules/gamification/views/img/{$key}.png" alt="{$type.name|escape:html:'UTF-8'}" /> {$type.name|escape:html:'UTF-8'}</legend>

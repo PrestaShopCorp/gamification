@@ -45,6 +45,8 @@ class Advice extends ObjectModel
 	public $start_day;
 	
 	public $stop_day;
+
+	public $weight;
 	
 	/**
 	 * @see ObjectModel::$definition
@@ -60,7 +62,8 @@ class Advice extends ObjectModel
 			'location' =>		array('type' => self::TYPE_STRING),
 			'validated' =>		array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
 			'start_day' =>		array('type' => self::TYPE_INT, 'validate' => 'isInt'),
-			'stop_day' =>			array('type' => self::TYPE_INT, 'validate' => 'isInt'),
+			'stop_day' =>		array('type' => self::TYPE_INT, 'validate' => 'isInt'),
+			'weight' =>			array('type' => self::TYPE_INT, 'validate' => 'isInt'),
 
 			// Lang fields
 			'html' => 			array('type' => self::TYPE_HTML, 'lang' => true, 'required' => true, 'validate' => 'isString'),
@@ -77,10 +80,10 @@ class Advice extends ObjectModel
 		return (int)Db::getInstance()->getValue($query);
 	}
 
-	public static function getValidatedByIdTab($id_tab, $premium = false, $addons = false)
+		public static function getValidatedByIdTab($id_tab, $premium = false, $addons = false)
 	{
 		$query = new DbQuery();
-		$query->select('a.`id_ps_advice`, a.`selector`, a.`location`, al.`html`');
+		$query->select('a.`id_ps_advice`, a.`selector`, a.`location`, al.`html`, a.`weight`');
 		$query->from('advice', 'a');
 		$query->join('
 			LEFT JOIN `'._DB_PREFIX_.'advice_lang` al ON al.`id_advice` = a.`id_advice`
@@ -102,6 +105,7 @@ class Advice extends ObjectModel
 					'location' => $res['location'],
 					'html' => $res['html'],
 					'id_ps_advice' => $res['id_ps_advice'],
+					'weight' => $res['weight']
 					);
 		if (!$premium)
 			foreach ($advices as $k => $a)

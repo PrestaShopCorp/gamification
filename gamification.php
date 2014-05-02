@@ -38,7 +38,7 @@ class Gamification extends Module
 	{
 		$this->name = 'gamification';
 		$this->tab = 'administration';
-		$this->version = '1.8.8';
+		$this->version = '1.8.9';
 		$this->author = 'PrestaShop';
 
 		parent::__construct();
@@ -231,7 +231,7 @@ class Gamification extends Module
 			$this->refreshDatas($default_iso_lang);
 
 		$cache_file = $this->cache_data.'data_'.strtoupper($iso_lang).'_'.strtoupper($iso_currency).'_'.strtoupper($iso_country).'.json';
-		if (!$this->isFresh($cache_file, 604800))
+		if (!$this->isFresh($cache_file, 86400))
 			if ($this->getData($iso_lang))
 			{
 				$data = Tools::jsonDecode(Tools::file_get_contents($cache_file));
@@ -250,6 +250,9 @@ class Gamification extends Module
 
 				if (isset($data->badges) && isset($data->badges_lang))
 					$this->processImportBadges($data->badges, $data->badges_lang, $id_lang);
+
+				if (isset($data->badges_only_visible) && isset($data->badges_only_visible))
+					$this->processImportBadges($data->badges_only_visible, $data->badges_lang_only_visible, $id_lang);
 					
 				if (isset($data->advices) && isset($data->advices_lang))
 					$this->processImportAdvices($data->advices, $data->advices_lang, $id_lang);
@@ -465,7 +468,7 @@ class Gamification extends Module
 		return $cond_ids;
 	}
 	
-	public function isFresh($file, $timeout = 604800000)
+	public function isFresh($file, $timeout = 86400000)
 	{
 		if (file_exists($file))
 		{

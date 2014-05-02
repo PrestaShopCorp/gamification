@@ -46,17 +46,18 @@ class AdminGamificationController extends ModuleAdminController
 	public function renderView()
 	{
 		$badges_feature = new Collection('badge', $this->context->language->id);
-		$badges_feature->where('type', '=', 'feature');
+		$badges_feature->sqlWhere('(type = \'feature\' AND awb = 0) OR (awb = 1 AND validated = 1)');
+		$badges_feature->orderBy('awb');
 		$badges_feature->orderBy('id_group');
 		$badges_feature->orderBy('group_position');
-		
+
 		$badges_achievement = new Collection('badge', $this->context->language->id);
-		$badges_achievement->where('type', '=', 'achievement');
+		$badges_achievement->sqlWhere('type = \'achievement\' AND awb != 1');
 		$badges_achievement->orderBy('id_group');
 		$badges_achievement->orderBy('group_position');
 		
 		$badges_international = new Collection('badge', $this->context->language->id);
-		$badges_international->where('type', '=', 'international');
+		$badges_international->sqlWhere('type = \'international\' AND awb != 1');
 		$badges_international->orderBy('id_group');
 		$badges_international->orderBy('group_position');
 		
@@ -132,15 +133,29 @@ class AdminGamificationController extends ModuleAdminController
 		if (Tab::getIdFromClassName('AdminDashboard') == Tools::getValue('id_tab'))
 		{
 			$return['advices_premium_to_display'] = $this->processGetAdvicesToDisplay(true);
+			
 			if (count($return['advices_premium_to_display']['advices']) >= 2)
 			{
-				$rand = rand(0, count($return['advices_premium_to_display']['advices'])-1);
+				$weighted_advices_array = array();
+				foreach ($return['advices_premium_to_display']['advices'] as $prem_advice)
+				{
+					$loop_flag = (int)$prem_advice['weight'];
+					if ($loop_flag)
+					{
+						for ($i = 0; $i != $loop_flag; $i++)
+							$weighted_advices_array[] = $prem_advice;
+					}
+					else
+						$weighted_advices_array[] = $prem_advice;
+					
+				}
+				$rand = rand(0, count($weighted_advices_array)-1);
 				do
 				{
-					$rand2 = rand(0, count($return['advices_premium_to_display']['advices'])-1);
+					$rand2 = rand(0, count($weighted_advices_array)-1);
 				}while ($rand == $rand2);
 	
-				$return['advices_premium_to_display']['advices'] = array($return['advices_premium_to_display']['advices'][$rand], $return['advices_premium_to_display']['advices'][$rand2]);
+				$return['advices_premium_to_display']['advices'] = array($weighted_advices_array[$rand], $weighted_advices_array[$rand2]);
 			}
 			else if (count($return['advices_premium_to_display']['advices']) > 0)
 			{
@@ -164,6 +179,8 @@ class AdminGamificationController extends ModuleAdminController
 	public function processGetAdvicesToDisplay($only_premium = false)
 	{
 		$return = array('advices' => array());
+
+		
 		$id_tab = (int)Tools::getValue('id_tab');
 		$ids_ps_advice = Tools::getValue('ids_ps_advice');
 		
@@ -178,7 +195,8 @@ class AdminGamificationController extends ModuleAdminController
 					$return['advices'][] = array(
 						'selector' => $advice['selector'], 
 						'html' => GamificationTools::parseMetaData($advice['html']), 
-						'location' => $advice['location']
+						'location' => $advice['location'],
+						'weight' => (int)$advice['weight']
 					);
 		return $return;
 	}
