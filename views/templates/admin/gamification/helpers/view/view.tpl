@@ -82,25 +82,15 @@
 	<legend><img src="../modules/gamification/views/img/{$key}.png" alt="{$type.name|escape:html:'UTF-8'}" /> {$type.name|escape:html:'UTF-8'}</legend>
 	{include file='./filters.tpl' type=$key}
 	<ul class="badge_list" id="list_{$key}" style="">
-		{if count($type.badges)}
-			{foreach from=$type.badges item=badge}
-			<li class="badge_square badge_all {if $badge->validated}validated {else} not_validated{/if} group_{$badge->id_group} level_{$badge->group_position} " id="{$badge->id|intval}">
-				<div class="gamification_badges_img"><img src="{$badge->getBadgeImgUrl()}" alt="" /></div>
-				<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
-				<div class="gamification_badges_description" style="display:none">{$badge->description|escape:html:'UTF-8'}</div>
-			</li>
-			{/foreach}
-		{else if isset($type.badges_specials)}
-			{foreach from=$type.badges_specials item=badge}
-			<li class="badge_square badge_all {if $badge->validated}validated {else} not_validated{/if} group_{$badge->id_group} level_{$badge->group_position} " id="{$badge->id|intval}">
-				<div class="gamification_badges_img"><img src="{$badge->getBadgeImgUrl()}" alt="" /></div>
-				<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
-				<div class="gamification_badges_description" style="display:none">{$badge->description|escape:html:'UTF-8'}</div>
-			</li>
-			{/foreach}
-		{else}
+		{foreach from=$type.badges item=badge}
+		<li class="badge_square badge_all {if $badge->validated}validated {else} not_validated{/if} group_{$badge->id_group} level_{$badge->group_position} " id="{$badge->id|intval}">
+			<div class="gamification_badges_img"><img src="{$badge->getBadgeImgUrl()}" alt="" /></div>
+			<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
+			<div class="gamification_badges_description" style="display:none">{$badge->description|escape:html:'UTF-8'}</div>
+		</li>
+		{foreachelse}
 			<div class="gamification_badges_name">{l s="No badge in this section" mod='gamification'}</div>
-		{/if}
+		{/foreach}
 	</ul>
 	<p id="no_badge_{$key}" class="gamification_badges_name" style="display:none;text-align:center">{l s="No badge in this section" mod='gamification'}</p>
 </fieldset>

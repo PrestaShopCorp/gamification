@@ -46,22 +46,18 @@ class AdminGamificationController extends ModuleAdminController
 	public function renderView()
 	{
 		$badges_feature = new Collection('badge', $this->context->language->id);
-		$badges_feature->sqlWhere('type = \'feature\' AND awb != 1');
+		$badges_feature->sqlWhere('(type = \'feature\' AND awb = 0) OR (awb = 1 AND validated = 1)');
+		$badges_feature->orderBy('awb');
 		$badges_feature->orderBy('id_group');
 		$badges_feature->orderBy('group_position');
 
-		$badges_only_visible = new Collection('badge', $this->context->language->id);
-		$badges_only_visible->sqlWhere('awb = 1 AND validated = 1');
-		$badges_only_visible->orderBy('id_group');
-		$badges_only_visible->orderBy('group_position');
-		
 		$badges_achievement = new Collection('badge', $this->context->language->id);
-		$badges_feature->sqlWhere('type = \'achievement\' AND awb != 1');
+		$badges_achievement->sqlWhere('type = \'achievement\' AND awb != 1');
 		$badges_achievement->orderBy('id_group');
 		$badges_achievement->orderBy('group_position');
 		
 		$badges_international = new Collection('badge', $this->context->language->id);
-		$badges_feature->sqlWhere('type = \'international\' AND awb != 1');
+		$badges_international->sqlWhere('type = \'international\' AND awb != 1');
 		$badges_international->orderBy('id_group');
 		$badges_international->orderBy('group_position');
 		
@@ -78,7 +74,7 @@ class AdminGamificationController extends ModuleAdminController
 			$groups['badges_'.$res['type']][$res['id_group']] = $res['group_name'];
 
 		$badges_type = array(
-			'badges_feature' => array('name' => $this->l('Features'), 'badges' => $badges_feature, 'badges_specials' => $badges_only_visible),
+			'badges_feature' => array('name' => $this->l('Features'), 'badges' => $badges_feature),
 			'badges_achievement' => array('name' => $this->l('Achievements'), 'badges' => $badges_achievement),
 			'badges_international' => array('name' => $this->l('International'), 'badges' => $badges_international),
 		);
@@ -137,16 +133,22 @@ class AdminGamificationController extends ModuleAdminController
 		if (Tab::getIdFromClassName('AdminDashboard') == Tools::getValue('id_tab'))
 		{
 			$return['advices_premium_to_display'] = $this->processGetAdvicesToDisplay(true);
+			
 			if (count($return['advices_premium_to_display']['advices']) >= 2)
 			{
 				$weighted_advices_array = array();
 				foreach ($return['advices_premium_to_display']['advices'] as $prem_advice)
 				{
 					$loop_flag = (int)$prem_advice['weight'];
-					for ($i = 0; $i != $loop_flag; $i++)
+					if ($loop_flag)
+					{
+						for ($i = 0; $i != $loop_flag; $i++)
+							$weighted_advices_array[] = $prem_advice;
+					}
+					else
 						$weighted_advices_array[] = $prem_advice;
+					
 				}
-
 				$rand = rand(0, count($weighted_advices_array)-1);
 				do
 				{

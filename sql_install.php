@@ -32,6 +32,7 @@ $sql[_DB_PREFIX_.'badge'] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'badge` (
 			  `id_group` int(11) NOT NULL,
 			  `group_position` int(11) NOT NULL,
 			  `scoring` int(11) NOT NULL,
+			  `awb` INT NULL DEFAULT  \'0\',
 			  `validated` tinyint(1) unsigned NOT NULL DEFAULT 0,
 			  PRIMARY KEY (`id_badge`)
 			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
@@ -78,6 +79,7 @@ $sql[_DB_PREFIX_.'advice'] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'advice`
 			  `selector` varchar(255),
 			  `start_day` int(11) NOT NULL DEFAULT 0,
 			  `stop_day` int(11) NOT NULL DEFAULT 0,
+			  `weight` int(11) NULL DEFAULT  \'1\',
 			  PRIMARY KEY (`id_advice`)
 			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
 
