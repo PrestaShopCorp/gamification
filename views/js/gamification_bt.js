@@ -7,7 +7,7 @@ function gamificationTasks()
 	if (typeof ids_ps_advice == 'undefined')
 		ids_ps_advice = new Array();
 	$('#gamification_notif').remove();
-	$('#header_notifs_icon_wrapper').append'<div id="gamification_notif" class="notifs"></div>');
+	$('#header_notifs_icon_wrapper').append('<div id="gamification_notif" class="notifs"></div>');
 	$.ajax({
 		type: 'POST',
 		url: admin_gamification_ajax_url,
