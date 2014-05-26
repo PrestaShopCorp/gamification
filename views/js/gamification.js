@@ -14,7 +14,8 @@ function gamificationTasks()
 			controller : 'AdminGamification',
 			action : 'gamificationTasks',
 			ajax : true,
-			id_tab : current_id_tab
+			id_tab : current_id_tab,
+			ids_ps_advice : ids_ps_advice,
 		},
 		success: function(jsonData)
 		{
