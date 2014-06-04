@@ -21,7 +21,7 @@
 	
 	function gamificationDisplayTab(elt)
 	{
-		$('#gamification_tab li, .tab-pane').removeClass('active');
+		$('#gamification_tab li, .gamification-tab-pane').removeClass('active');
 		$(elt).parent('li').addClass('active');
 		$('#'+$(elt).data('target')).addClass('active');
 	}
@@ -58,7 +58,7 @@
 			
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane active" id="gamification_1">
+				<div class="tab-pane gamification-tab-pane active" id="gamification_1">
 					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:155px;{/if} padding-left:0">
 					{foreach from=$unlock_badges name=badge_list item=badge}
 						{if $badge->id}
@@ -72,7 +72,7 @@
 					{/foreach}
 					</ul>
 				</div>
-				<div class="tab-pane" id="gamification_2">
+				<div class="tab-pane gamification-tab-pane" id="gamification_2">
 					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:155px;{/if} padding-left:0">
 					{foreach from=$next_badges name=badge_list item=badge}
 						{if $badge->id}
