@@ -251,8 +251,8 @@ class Gamification extends Module
 				if (isset($data->badges) && isset($data->badges_lang))
 					$this->processImportBadges($data->badges, $data->badges_lang, $id_lang);
 
-				if (isset($data->badges_only_visible) && isset($data->badges_only_visible))
-					$this->processImportBadges($data->badges_only_visible, $data->badges_lang_only_visible, $id_lang);
+				if (isset($data->badges_only_visible) && isset($data->badges_only_visible_lang))
+					$this->processImportBadges($data->badges_only_visible, $data->badges_only_visible_lang, $id_lang);
 					
 				if (isset($data->advices) && isset($data->advices_lang))
 					$this->processImportAdvices($data->advices, $data->advices_lang, $id_lang);
