@@ -147,7 +147,7 @@ class Gamification extends Module
 	public function hookDisplayBackOfficeHeader()
 	{
 		//check if currently updatingcheck if module is currently processing update
-		if ($this->isUpdating())
+		if ($this->isUpdating() || !Module::isEnabled($this->name))
 			return false;
 		
 		if (method_exists($this->context->controller, 'addJquery'))
