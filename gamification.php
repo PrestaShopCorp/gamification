@@ -417,7 +417,7 @@ class Gamification extends Module
 				if (isset($current_advices[$advice->id_ps_advice]))
 				{
 					$adv = new Advice($current_advices[$advice->id_ps_advice]);
-					$bdg->html[$id_lang] = $formated_advices_lang[$advice->id_ps_advice]['html'][$id_lang];
+					$adv->html[$id_lang] = $formated_advices_lang[$advice->id_ps_advice]['html'][$id_lang];
 					$adv->update();
 					$this->processAdviceAsso($adv->id, $advice->display_conditions, $advice->hide_conditions, $advice->tabs, $cond_ids);
 					unset($current_advices[$advice->id_ps_advice]);
