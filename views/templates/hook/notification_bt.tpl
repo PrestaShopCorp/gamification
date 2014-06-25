@@ -75,7 +75,7 @@
 				<div class="tab-pane gamification-tab-pane" id="gamification_2">
 					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:155px;{/if} padding-left:0">
 					{foreach from=$next_badges name=badge_list item=badge}
-						{if $badge->id}
+						{if $badge->id && !$badge->awb}
 							<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
 								<span class="{if $badge->validated} unlocked_img {else} locked_img {/if}" style="left: 12px;"></span>
 								<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge :' mod='gamification'} {else} {l s='Next badge :' mod='gamification'} {/if}</span></div>

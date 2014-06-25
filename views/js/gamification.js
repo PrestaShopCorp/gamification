@@ -5,7 +5,7 @@ $(document).ready( function () {
 function gamificationTasks()
 {
 	$('#gamification_notif').remove();
-	$('#header_notifs_icon_wrapper').append('<div id="gamification_notif" class="notifs"></div>');
+	$('#notifs_icon_wrapper').append('<div id="gamification_notif" class="notifs"></div>');
 	$.ajax({
 		type: 'POST',
 		url: admin_gamification_ajax_url,
@@ -48,7 +48,7 @@ function gamificationTasks()
 function initHeaderNotification(html)
 {
 	$('#gamification_notif').remove();
-	$('#header_notifs_icon_wrapper').append(html);
+	$('#notifs_icon_wrapper').append(html);
 	$('#gamification_notif').click(function () {
 		if ($('#gamification_notif_wrapper').css('display') == 'block')
 		{
