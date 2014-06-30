@@ -89,7 +89,9 @@
 			<div class="gamification_badges_description" style="display:none">{$badge->description|escape:html:'UTF-8'}</div>
 		</li>
 		{foreachelse}
+		<li>
 			<div class="gamification_badges_name">{l s="No badge in this section" mod='gamification'}</div>
+		<li>
 		{/foreach}
 	</ul>
 	<p id="no_badge_{$key}" class="gamification_badges_name" style="display:none;text-align:center">{l s="No badge in this section" mod='gamification'}</p>
