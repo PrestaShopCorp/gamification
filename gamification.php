@@ -248,10 +248,10 @@ class Gamification extends Module
 				if (isset($data->conditions))
 					$this->processImportConditions($data->conditions, $id_lang);
 
-				if ((isset($data->badges) && isset($data->badges_lang)) && (!isset($data->badges_only_visible) && !isset($data->badges_only_visible_lang)))
+				if ((isset($data->badges) && isset($data->badges_lang)) && (!isset($data->badges_only_visible_awb) && !isset($data->badges_only_visible_lang_awb)))
 					$this->processImportBadges($data->badges, $data->badges_lang, $id_lang);
 				else
-					$this->processImportBadges(array_merge($data->badges_only_visible, $data->badges), array_merge($data->badges_only_visible_lang, $data->badges_lang), $id_lang);
+					$this->processImportBadges(array_merge($data->badges_only_visible_awb, $data->badges), array_merge($data->badges_only_visible_lang_awb, $data->badges_lang), $id_lang);
 					
 				if (isset($data->advices) && isset($data->advices_lang))
 					$this->processImportAdvices($data->advices, $data->advices_lang, $id_lang);
