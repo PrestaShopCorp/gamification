@@ -364,14 +364,14 @@ class Gamification extends Module
 			try 
 			{
 				//if badge already exist we update language data
-				if (in_array($badge->id_ps_badge, $current_badges))
+				if (in_array((int)$badge->id_ps_badge, $current_badges))
 				{
 					$bdg = new Badge(Badge::getIdByIdPs((int)$badge->id_ps_badge));
 					$bdg->name[$id_lang] = $formated_badges_lang[$badge->id_ps_badge]['name'][$id_lang];
 					$bdg->description[$id_lang] = $formated_badges_lang[$badge->id_ps_badge]['description'][$id_lang];
 					$bdg->group_name[$id_lang] = $formated_badges_lang[$badge->id_ps_badge]['group_name'][$id_lang];
 					$bdg->update();
-					unset($current_badges[$badge->id_ps_badge]);
+					unset($current_badges[(int)array_search($badge->id_ps_badge, $current_badges)]);
 				}
 				else
 				{
