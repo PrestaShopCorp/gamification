@@ -316,7 +316,7 @@ class Gamification extends Module
 				if (in_array($condition->id_ps_condition, $current_conditions))
 				{
 					$cond = new Condition(Condition::getIdByIdPs($condition->id_ps_condition));
-					unset($current_conditions[$condition->id_ps_condition]);
+					unset($current_conditions[(int)array_search($condition->id_ps_condition, $current_conditions)]);
 				}
 
 				$cond->hydrate((array)$condition, (int)$id_lang);
