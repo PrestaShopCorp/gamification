@@ -60,12 +60,12 @@
 			<div class="tab-content">
 				<div class="tab-pane gamification-tab-pane active" id="gamification_1">
 					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:155px;{/if} padding-left:0">
-					{foreach from=$unlock_badges name=badge_list item=badge}
+					{foreach from=$unlock_badges name=badge_list item=badge key="i"}
 						{if $badge->id}
 							<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
 								<span class="{if $badge->validated} unlocked_img {else} locked_img {/if}" style="left: 12px;"></span>
 								<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge :' mod='gamification'} {else} {l s='Next badge :' mod='gamification'} {/if}</span></div>
-								<div class="gamification_badges_img"  data-placement="bottom" data-toggle="tooltip" data-original-title="{$badge->description|escape:html:'UTF-8'}"><img src="{$badge->getBadgeImgUrl()}"></div>
+								<div class="gamification_badges_img" data-placement="{if $i <= 1}bottom{else}top{/if}" data-original-title="{$badge->description|escape:html:'UTF-8'}"><img src="{$badge->getBadgeImgUrl()}"></div>
 								<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
 							</li>
 						{/if}
@@ -74,12 +74,12 @@
 				</div>
 				<div class="tab-pane gamification-tab-pane" id="gamification_2">
 					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:155px;{/if} padding-left:0">
-					{foreach from=$next_badges name=badge_list item=badge}
+					{foreach from=$next_badges name=badge_list item=badge key="i"}
 						{if $badge->id && !$badge->awb}
 							<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
 								<span class="{if $badge->validated} unlocked_img {else} locked_img {/if}" style="left: 12px;"></span>
 								<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge :' mod='gamification'} {else} {l s='Next badge :' mod='gamification'} {/if}</span></div>
-								<div class="gamification_badges_img"  data-placement="bottom" data-toggle="tooltip" data-original-title="{$badge->description|escape:html:'UTF-8'}"><img src="{$badge->getBadgeImgUrl()}"></div>
+								<div class="gamification_badges_img" data-placement="{if $i <= 1}bottom{else}top{/if}"data-toggle="tooltip" data-original-title="{$badge->description|escape:html:'UTF-8'}"><img src="{$badge->getBadgeImgUrl()}"></div>
 								<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
 							</li>
 						{/if}
