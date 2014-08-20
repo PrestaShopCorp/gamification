@@ -62,7 +62,7 @@
 				</li>
 				<li>
 					<img src="../modules/gamification/views/img/mail_icon.png" alt="{l s="Email" mod='gamification' mod='gamification'}" />
-					<a href="http://www.prestashop.com/en/contact-us">{l s="Fill out a contact form" mod='gamification'}</a>
+					<a href="http://www.prestashop.com/en/contact-us?utm_source=gamification">{l s="Fill out a contact form" mod='gamification'}</a>
 				</li>
 			</ul>
 		</div>
