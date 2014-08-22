@@ -86,13 +86,18 @@ class Condition extends ObjectModel
 	public static function getIdsByHookCalculation($hook_name)
 	{
 		$ids = array();
+		$in = array();
 		
 		$sub_query = new DbQuery();
 		$sub_query->select('id_badge');
 		$sub_query->from('badge', 'b');
 		$sub_query->where('b.`validated` = 0');
-		$sub_query->groupBy('b.`id_group`');
-		
+
+		$sub_results = Db::getInstance()->executeS($sub_query);
+
+		foreach ($sub_results as $sub_result)
+			$in[] = $sub_result['id_badge'];
+
 		$query = new DbQuery();
 		$query->select('c.`id_condition`');
 		$query->from('condition', 'c');
@@ -100,16 +105,25 @@ class Condition extends ObjectModel
 		$query->where('c.`calculation_type` = \'hook\'');
 		$query->where('c.`calculation_detail` = \''.pSQL($hook_name).'\'');
 		$query->where('c.`validated` = 0');
-		$query->where('cb.`id_badge` IN ('.$sub_query.')');
+		if (count($in))
+			$query->where('cb.`id_badge` IN ('.implode(',', $in).')');
 		$query->groupBy('c.`id_condition`');
+
 		$result = Db::getInstance()->executeS($query);
-		
+
 		foreach($result as $r)
 			$ids[] = $r['id_condition'];
 		
 		$sub_query = new DbQuery();
 		$sub_query->select('id_advice');
 		$sub_query->from('advice', 'a');
+
+		$sub_results = Db::getInstance()->executeS($sub_query);
+
+		$in = array();
+
+		foreach ($sub_results as $sub_result)
+			$in[] = $sub_result['id_advice'];
 		
 		$query = new DbQuery();
 		$query->select('c.`id_condition`');
@@ -118,7 +132,8 @@ class Condition extends ObjectModel
 		$query->where('c.`calculation_type` = \'hook\'');
 		$query->where('c.`calculation_detail` = \''.pSQL($hook_name).'\'');
 		$query->where('c.`validated` = 0');
-		$query->where('ca.`id_advice` IN ('.$sub_query.')');
+		if (count($in))
+			$query->where('ca.`id_advice` IN ('.implode(',', $in).')');
 		$query->groupBy('c.`id_condition`');
 		$result = Db::getInstance()->executeS($query);
 		
@@ -131,12 +146,18 @@ class Condition extends ObjectModel
 	public static function getIdsDailyCalculation()
 	{
 		$ids = array();
+		$in = array();
+
 		//badges conditions validation
 		$sub_query = new DbQuery();
 		$sub_query->select('id_badge');
 		$sub_query->from('badge', 'b');
-		$sub_query->groupBy('b.`id_group`');
-		
+
+		$sub_results = Db::getInstance()->executeS($sub_query);
+
+		foreach ($sub_results as $sub_result)
+			$in[] = $sub_result['id_badge'];
+
 		$query = new DbQuery();
 		$query->select('c.`id_condition`');
 		$query->from('condition', 'c');
@@ -144,10 +165,12 @@ class Condition extends ObjectModel
 		$query->where('c.`calculation_type` = \'time\'');
 		$query->where('DATEDIFF(NOW(), `date_upd`) >= `calculation_detail`');
 		$query->where('c.`validated` = 0');
-		$query->where('cb.`id_badge` IN ('.$sub_query.')');
+		if (count($in))
+			$query->where('cb.`id_badge` IN ('.implode(',', $in).')');
 		$query->groupBy('c.`id_condition`');
 		
 		$result = Db::getInstance()->executeS($query);
+
 		foreach($result as $r)
 			$ids[] = $r['id_condition'];
 		
@@ -155,6 +178,13 @@ class Condition extends ObjectModel
 		$sub_query = new DbQuery();
 		$sub_query->select('id_advice');
 		$sub_query->from('advice', 'a');
+
+		$sub_results = Db::getInstance()->executeS($sub_query);
+
+		$in = array();
+
+		foreach ($sub_results as $sub_result)
+			$in[] = $sub_result['id_advice'];
 		
 		$query = new DbQuery();
 		$query->select('c.`id_condition`');
@@ -163,7 +193,8 @@ class Condition extends ObjectModel
 		$query->where('c.`calculation_type` = \'time\'');
 		$query->where('DATEDIFF(NOW(), `date_upd`) >= `calculation_detail`');
 		$query->where('c.`validated` = 0');
-		$query->where('ca.`id_advice` IN ('.$sub_query.')');
+		if (count($in))
+			$query->where('ca.`id_advice` IN ('.implode(',', $in).')');
 		$query->groupBy('c.`id_condition`');
 		
 		$result = Db::getInstance()->executeS($query);
