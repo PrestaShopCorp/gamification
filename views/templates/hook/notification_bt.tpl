@@ -59,7 +59,7 @@
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<div class="tab-pane gamification-tab-pane active" id="gamification_1">
-					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:155px;{/if} padding-left:0">
+					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:170px;{/if} padding-left:0">
 					{foreach from=$unlock_badges name=badge_list item=badge key="i"}
 						{if $badge->id}
 							<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
@@ -73,7 +73,7 @@
 					</ul>
 				</div>
 				<div class="tab-pane gamification-tab-pane" id="gamification_2">
-					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:155px;{/if} padding-left:0">
+					<ul id="gamification_badges_list" style="{if $badges_to_display|count <= 2} height:170px;{/if} padding-left:0">
 					{foreach from=$next_badges name=badge_list item=badge key="i"}
 						{if $badge->id && !$badge->awb}
 							<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
