@@ -323,34 +323,35 @@ class Gamification extends Module
 		foreach ($result as $row)
 			$current_conditions[] = (int)$row['id_ps_condition'];
 		
-		foreach ($conditions as $condition)
-		{
-			if (isset($condition->id))
-				unset($condition->id);
-			try 
+		if (is_array($conditions))
+			foreach ($conditions as $condition)
 			{
-				$cond = new Condition();
-				if (in_array($condition->id_ps_condition, $current_conditions))
+				if (isset($condition->id))
+					unset($condition->id);
+				try 
 				{
-					$cond = new Condition(Condition::getIdByIdPs($condition->id_ps_condition));
-					unset($current_conditions[(int)array_search($condition->id_ps_condition, $current_conditions)]);
+					$cond = new Condition();
+					if (in_array($condition->id_ps_condition, $current_conditions))
+					{
+						$cond = new Condition(Condition::getIdByIdPs($condition->id_ps_condition));
+						unset($current_conditions[(int)array_search($condition->id_ps_condition, $current_conditions)]);
+					}
+	
+					$cond->hydrate((array)$condition, (int)$id_lang);
+					
+					$cond->date_upd = date('Y-m-d H:i:s', strtotime('-'.(int)$cond->calculation_detail.'DAY'));
+					$cond->date_add = date('Y-m-d H:i:s');
+					$condition->calculation_detail = trim($condition->calculation_detail);
+					$cond->save(false, false);
+					
+					if ($condition->calculation_type == 'hook' && !$this->isRegisteredInHook($condition->calculation_detail) && Validate::isHookName($condition->calculation_detail))
+						$this->registerHook($condition->calculation_detail);
+					unset($cond);
+					
+				} catch (Exception $e) {
+						continue;
 				}
-
-				$cond->hydrate((array)$condition, (int)$id_lang);
-				
-				$cond->date_upd = date('Y-m-d H:i:s', strtotime('-'.(int)$cond->calculation_detail.'DAY'));
-				$cond->date_add = date('Y-m-d H:i:s');
-				$condition->calculation_detail = trim($condition->calculation_detail);
-				$cond->save(false, false);
-				
-				if ($condition->calculation_type == 'hook' && !$this->isRegisteredInHook($condition->calculation_detail) && Validate::isHookName($condition->calculation_detail))
-					$this->registerHook($condition->calculation_detail);
-				unset($cond);
-				
-			} catch (Exception $e) {
-					continue;
 			}
-		}
 
 		// Delete conditions that are not in the file anymore
 		foreach ($current_conditions as $id_ps_condition)
