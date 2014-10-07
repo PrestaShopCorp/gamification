@@ -33,7 +33,10 @@ include_once dirname(__FILE__).'/classes/Condition.php';
 include_once dirname(__FILE__).'/classes/GamificationTools.php';
 
 class Gamification extends Module
-{	
+{
+	// We recommend to not set it to true in production environment.
+	const TEST_MODE = false;
+
 	public function __construct()
 	{
 		$this->name = 'gamification';
@@ -46,7 +49,9 @@ class Gamification extends Module
 		$this->displayName = $this->l('Merchant Expertise');
 		$this->description = $this->l('Become an e-commerce expert within the blink of an eye!');
 		$this->cache_data = dirname(__FILE__).'/data/';
-		$this->url_data = 'http://gamification.prestashop.com/json/';		
+		$this->url_data = 'http://gamification.prestashop.com/json/';
+		if (self::TEST_MODE === true)
+			$this->url_data .= 'test/';
 	}
 
 	public function install()
@@ -256,7 +261,7 @@ class Gamification extends Module
 				
 				$this->processCleanAdvices(array_merge($data->advices, $data->advices_16));
 				
-				if (function_exists('openssl_verify'))
+				if (function_exists('openssl_verify') && self::TEST_MODE === false)
 				{
 					if (!openssl_verify(Tools::jsonencode(array($data->conditions, $data->advices_lang)), base64_decode($data->signature), file_get_contents(dirname(__FILE__).'/prestashop.pub')))
 						return false;
@@ -272,7 +277,7 @@ class Gamification extends Module
 				if (isset($data->advices) && isset($data->advices_lang))
 					$this->processImportAdvices($data->advices, $data->advices_lang, $id_lang);
 				
-				if (function_exists('openssl_verify'))
+				if (function_exists('openssl_verify') && self::TEST_MODE === false)
 				{
 					if (!openssl_verify(Tools::jsonencode(array($data->advices_lang_16)), base64_decode($data->signature_16), file_get_contents(dirname(__FILE__).'/prestashop.pub')))
 						return false;
@@ -322,8 +327,9 @@ class Gamification extends Module
 
 		foreach ($result as $row)
 			$current_conditions[] = (int)$row['id_ps_condition'];
-		
-		if (is_array($conditions))
+
+		if (is_array($conditions) || is_object($conditions))
+		{
 			foreach ($conditions as $condition)
 			{
 				if (isset($condition->id))
@@ -336,7 +342,7 @@ class Gamification extends Module
 						$cond = new Condition(Condition::getIdByIdPs($condition->id_ps_condition));
 						unset($current_conditions[(int)array_search($condition->id_ps_condition, $current_conditions)]);
 					}
-	
+
 					$cond->hydrate((array)$condition, (int)$id_lang);
 					
 					$cond->date_upd = date('Y-m-d H:i:s', strtotime('-'.(int)$cond->calculation_detail.'DAY'));
@@ -352,6 +358,7 @@ class Gamification extends Module
 						continue;
 				}
 			}
+		}
 
 		// Delete conditions that are not in the file anymore
 		foreach ($current_conditions as $id_ps_condition)
