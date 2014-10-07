@@ -336,8 +336,7 @@
     hiddenStyle: { opacity: 0, scale: 0.001 },
     visibleStyle: { opacity: 1, scale: 1 },
     containerStyle: {
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     },
     animationEngine: 'best-available',
     animationOptions: {
