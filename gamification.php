@@ -126,7 +126,7 @@ class Gamification extends Module
 		Tools::redirectAdmin($this->context->link->getAdminLink('AdminGamification'));
 	}
 
-	public function __call($name)
+	public function __call($name, $arguments)
 	{
 		if (!Validate::isHookName($name))
 			return false;
