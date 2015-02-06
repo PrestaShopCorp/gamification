@@ -4,7 +4,7 @@
 	var current_level = {$current_level|intval};
 	var gamification_level = '{l s='Level' js=1}';
 	var advice_hide_url = '{$advice_hide_url}';
-	var hide_advice = '{l s='Do you really want to hide this advice?' js=1}';
+	var hide_advice = '{l s='Do you really want to hide this advice?' mod='gamification' js=1}';
 	
 	$('#dropdown_gamification .notifs_panel_header, #dropdown_gamification .tab-content').click(function () {
 		return false;
