@@ -2,7 +2,7 @@
 	var current_id_tab = {$current_id_tab|intval};
 	var current_level_percent = {$current_level_percent|intval};
 	var current_level = {$current_level|intval};
-	var gamification_level = '{l s='Level' js=1}';
+	var gamification_level = '{l s='Level' mod='gamification' js=1}';
 </script>
 <style>
 	{literal}.gamification_progress-label {top:-1px!important;-moz-border-radius: 15px;-o-border-radius: 15px;-webkit-border-radius: 15px;border-radius: 15px;height:19px;background-image: url(../modules/gamification/views/img/gamification-bar-bg.png) ;width: {/literal}{$current_level_percent}{literal}%}{/literal}
