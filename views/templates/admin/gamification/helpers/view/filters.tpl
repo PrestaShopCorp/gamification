@@ -9,7 +9,7 @@
 		</select>
 	</div>
 {/if}	
-	<div>{l s="State:" mod='gamification'}
+	<div>{l s="Status:" mod='gamification'}
 		<select id="status_select_{$type}" onchange="filterBadge('{$type}');">
 			<option value="badge_all">{l s="All" mod='gamification'}</option>
 			<option value="validated">{l s="Validated" mod='gamification'}</option>
