@@ -14,7 +14,7 @@
 		</div>
 	{/if}
 		<div class="form-group">
-			<label>{l s="State:" mod='gamification'}</label>
+			<label>{l s="Status:" mod='gamification'}</label>
 			<select id="status_select_{$type}" onchange="filterBadge('{$type}');">
 				<option value="badge_all">{l s="All" mod='gamification'}</option>
 				<option value="validated">{l s="Validated" mod='gamification'}</option>
