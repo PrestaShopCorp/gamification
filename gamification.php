@@ -132,10 +132,18 @@ class Gamification extends Module
 			return false;
 		$name = str_replace('hook', '', $name);
 
-		if ($retro_name = Db::getInstance()->getValue('SELECT `name` FROM `'._DB_PREFIX_.'hook_alias` WHERE `alias` = \''.pSQL($name).'\''))
-			$name = $retro_name;
 
-		$condition_ids = Condition::getIdsByHookCalculation($name);
+		if (!Cache::isStored($name))
+		{
+			if ($retro_name = Db::getInstance()->getValue('SELECT `name` FROM `'._DB_PREFIX_.'hook_alias` WHERE `alias` = \''.pSQL($name).'\''))
+				$name = $retro_name;
+
+			$condition_ids = Condition::getIdsByHookCalculation($name);
+			Cache::store($name, $condition_ids);
+		}
+		else
+			$condition_ids = Cache::retrieve($name);
+
 		foreach ($condition_ids as $id)
 		{
 			$cond = new Condition((int)$id);
