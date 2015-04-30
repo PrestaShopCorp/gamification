@@ -134,17 +134,17 @@ class Gamification extends Module
 		}
 		else
 		{
-			if (!Validate::isHookName($name)) {
+			if (!Validate::isHookName($name))
 				return false;
-			}
+
 			$name = str_replace('hook', '', $name);
 
-			if ($retro_name = Db::getInstance()->getValue('SELECT `name` FROM `'._DB_PREFIX_.'hook_alias` WHERE `alias` = \''.pSQL($name).'\'')) {
+			if ($retro_name = Db::getInstance()->getValue('SELECT `name` FROM `'._DB_PREFIX_.'hook_alias` WHERE `alias` = \''.pSQL($name).'\''))
 				$name = $retro_name;
-			}
 
 			$condition_ids = Condition::getIdsByHookCalculation($name);
-			foreach ($condition_ids as $id) {
+			foreach ($condition_ids as $id)
+			{
 				$cond = new Condition((int)$id);
 				$cond->processCalculation();
 			}
