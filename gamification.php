@@ -128,18 +128,26 @@ class Gamification extends Module
 
 	public function __call($name, $arguments)
 	{
-		if (!Validate::isHookName($name))
-			return false;
-		$name = str_replace('hook', '', $name);
-
-		if ($retro_name = Db::getInstance()->getValue('SELECT `name` FROM `'._DB_PREFIX_.'hook_alias` WHERE `alias` = \''.pSQL($name).'\''))
-			$name = $retro_name;
-
-		$condition_ids = Condition::getIdsByHookCalculation($name);
-		foreach ($condition_ids as $id)
+		if (!empty(self::$_in_import))
 		{
-			$cond = new Condition((int)$id);
-			$cond->processCalculation();
+			self::$_defered_func_call[get_class().'::__call_'.$name] = array(array($this, '__call'), array($name, $arguments));
+		}
+		else
+		{
+			if (!Validate::isHookName($name))
+				return false;
+
+			$name = str_replace('hook', '', $name);
+
+			if ($retro_name = Db::getInstance()->getValue('SELECT `name` FROM `'._DB_PREFIX_.'hook_alias` WHERE `alias` = \''.pSQL($name).'\''))
+				$name = $retro_name;
+
+			$condition_ids = Condition::getIdsByHookCalculation($name);
+			foreach ($condition_ids as $id)
+			{
+				$cond = new Condition((int)$id);
+				$cond->processCalculation();
+			}
 		}
 	}
 
