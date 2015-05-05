@@ -41,7 +41,7 @@ class Gamification extends Module
 	{
 		$this->name = 'gamification';
 		$this->tab = 'administration';
-		$this->version = '1.10.2';
+		$this->version = '1.10.3';
 		$this->author = 'PrestaShop';
 
 		parent::__construct();
@@ -128,10 +128,8 @@ class Gamification extends Module
 
 	public function __call($name, $arguments)
 	{
-		if (!empty(self::$_in_import))
-		{
+		if (!empty(self::$_batch_mode))
 			self::$_defered_func_call[get_class().'::__call_'.$name] = array(array($this, '__call'), array($name, $arguments));
-		}
 		else
 		{
 			if (!Validate::isHookName($name))
