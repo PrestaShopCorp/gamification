@@ -124,8 +124,7 @@ class gamification extends Module
             // AdminAdmin
             $tab->id_parent = (int)Tab::getIdFromClassName('AdminAdmin');
         }
-        
-        $tab->id_parent = (int)Tab::getIdFromClassName('AdminAdmin');
+
         $tab->module = $this->name;
         return $tab->add();
     }
