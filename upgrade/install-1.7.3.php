@@ -24,10 +24,11 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-if (!defined('_PS_VERSION_'))
-	exit;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 function upgrade_module_1_7_3($object)
 {
-	return Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'advice` ADD `hide` TINYINT NOT NULL DEFAULT \'0\' AFTER `validated`');
+    return Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'advice` ADD `hide` TINYINT NOT NULL DEFAULT \'0\' AFTER `validated`');
 }

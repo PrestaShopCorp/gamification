@@ -24,12 +24,13 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-if (!defined('_PS_VERSION_'))
-	exit;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 function upgrade_module_1_8_0($object)
 {
-	Configuration::updateValue('GF_INSTALL_CALC', 0);
+    Configuration::updateValue('GF_INSTALL_CALC', 0);
 
-	return true;
+    return true;
 }

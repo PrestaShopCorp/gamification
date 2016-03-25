@@ -24,11 +24,12 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-if (!defined('_PS_VERSION_'))
-	exit;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 // Needed for retrocompat
 function upgrade_module_1_7_6($object)
 {
-	return true;
+    return true;
 }
