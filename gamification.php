@@ -193,17 +193,21 @@ class gamification extends Module
                 $advice_css_path = dirname(__FILE__).'/views/css/advice-'._PS_VERSION_.'_'.(int)$advice['id_ps_advice'].'.css';
 
                 // 24h cache
+                if (version_compare(_PS_VERSION_, '1.7.0.0', '>=')) {
+                    $version = '1.6.1.4';
+                }
+
                 if (!$this->isFresh($advice_css_path, 86400)) {
-                    $advice_css_content = Tools::file_get_contents(Tools::getShopProtocol().'gamification.prestashop.com/css/advices/advice-'._PS_VERSION_.'_'.(int)$advice['id_ps_advice'].'.css');
+                    $advice_css_content = Tools::file_get_contents(Tools::getShopProtocol().'gamification.prestashop.com/css/advices/advice-'.$version.'_'.(int)$advice['id_ps_advice'].'.css');
                     $is_css_file_cached = file_put_contents($advice_css_path, $advice_css_content);
                 } else {
                     $is_css_file_cached = true;
                 }
 
                 if (!$is_css_file_cached) {
-                    $css_str .= '<link href="'.Tools::getShopProtocol().'gamification.prestashop.com/css/advices/advice-'._PS_VERSION_.'_'.(int)$advice['id_ps_advice'].'.css" rel="stylesheet" type="text/css" media="all" />';
+                    $css_str .= '<link href="'.Tools::getShopProtocol().'gamification.prestashop.com/css/advices/advice-'.$version.'_'.(int)$advice['id_ps_advice'].'.css" rel="stylesheet" type="text/css" media="all" />';
                 } else {
-                    $this->context->controller->addCss($this->_path.'views/css/advice-'._PS_VERSION_.'_'.(int)$advice['id_ps_advice'].'.css');
+                    $this->context->controller->addCss($this->_path.'views/css/advice-'.$version.'_'.(int)$advice['id_ps_advice'].'.css');
                 }
 
                 $js_str .= '"'.(int)$advice['id_ps_advice'].'",';
@@ -280,6 +284,7 @@ class gamification extends Module
         }
 
         $cache_file = $this->cache_data.'data_'.strtoupper($iso_lang).'_'.strtoupper($iso_currency).'_'.strtoupper($iso_country).'.json';
+
         if (!$this->isFresh($cache_file, 86400)) {
             if ($this->getData($iso_lang)) {
                 $data = Tools::jsonDecode(Tools::file_get_contents($cache_file));
@@ -538,3 +543,4 @@ class gamification extends Module
         }
     }
 }
+
