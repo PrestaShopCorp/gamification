@@ -154,7 +154,7 @@ class AdminGamificationController extends ModuleAdminController
                 $return['advices_premium_to_display']['advices'] = array($weighted_advices_array[$rand], $weighted_advices_array[$rand2]);
             } elseif (count($return['advices_premium_to_display']['advices']) > 0) {
                 $addons = Advice::getAddonsAdviceByIdTab((int)Tools::getValue('id_tab'));
-                $return['advices_premium_to_display']['advices'][] = $addons[0];
+                $return['advices_premium_to_display']['advices'][] = array_shift($addons);
             }
         }
         
