@@ -329,7 +329,7 @@ class gamification extends Module
         $iso_country = $this->context->country->iso_code;
         $iso_currency = $this->context->currency->iso_code;
         $file_name = 'data_'.strtoupper($iso_lang).'_'.strtoupper($iso_currency).'_'.strtoupper($iso_country).'.json';
-        $versioning = '?v='.$this->version;
+        $versioning = '?v='.$this->version.'&ps_version='._PS_VERSION_;
         $data = Tools::file_get_contents($this->url_data.$file_name.$versioning);
 
         return (bool)file_put_contents($this->cache_data.'data_'.strtoupper($iso_lang).'_'.strtoupper($iso_currency).'_'.strtoupper($iso_country).'.json', $data);
