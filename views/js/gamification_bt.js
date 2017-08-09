@@ -76,8 +76,11 @@ function gamificationTasks()
       }
 
       initHeaderNotification(jsonData.header_notification);
-      
-      $('.gamification_fancybox').fancybox();
+
+      var fancybox = $('.gamification_fancybox');
+      if (fancybox.fancybox) {
+        fancybox.fancybox();
+      }
 
       $(".preactivationLink").on('click', function(e) {
         e.preventDefault();
