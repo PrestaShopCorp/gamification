@@ -316,15 +316,27 @@ li.not_validated {
 }
 
 /* PrestaShop 1.7 - new theme adaptation */
-.gamification-component .icon-trophy-svg {
-    display:block;
-    width:24px;
-    height:24px;
+.gamification-component {
+	height: 100%;
 }
 
-.gamification-component #gamification_notif {
-    list-style: outside none none;
+.gamification-component,
+.gamification-component > ul,
+.gamification-component > ul > li {
+	display: flex !important;
+	align-items: stretch;
 }
+.gamification-component > ul > li > a {
+	display: flex;
+	align-items: center;
+}
+
+.gamification-component .icon-trophy-svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+}
+
 .gamification-component #gamification_notif .gamification_notif::after {
     display: none;
 }
@@ -333,10 +345,19 @@ li.not_validated {
     padding: 0;
     margin: 0;
 }
-.gamification-component .icon-trophy-svg {
-  font-size: 1.5rem;
-  line-height: 1.375rem;
-  vertical-align: middle;
-  position: relative;
-  top: 0.375em;
+
+.gamification-component #gamification_notif_value {
+	display: inline-block;
+	line-height: .875rem;
+	height: .875rem;
+	vertical-align: middle;
+	position: absolute;
+	top: .125rem;
+	right: -.125rem;
+	color: #fff;
+	background: #cd9321;
+	font-size: .5625rem;
+	padding: 0 0.25rem;
+	border-radius: .625rem;
+	box-shadow: 0 0 0 1px #fff;
 }
