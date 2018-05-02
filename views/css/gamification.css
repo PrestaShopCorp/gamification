@@ -5,13 +5,13 @@
 
 #gamification_notif_number_wrapper {
   display: inline-block;
-  line-height: .875rem;
+  line-height: .775rem;
   height: .875rem;
+  width: .875rem;
   vertical-align: middle;
   position: absolute;
-  top: .4rem
-  right: .1rem
-  color: #fff;
+  top: .3rem;
+  right: 0;
   background: #25b9d7;
   font-size: .5625rem;
   padding: 0 .25rem;
@@ -420,18 +420,8 @@ li.not_validated {
   margin: 0;
 }
 
-.gamification-component #gamification_notif_value {
-  display: inline-block;
-  line-height: .875rem;
-  height: .875rem;
-  vertical-align: middle;
-  position: absolute;
-  top: .125rem;
-  right: -.125rem;
-  color: #fff;
-  background: #cd9321;
-  font-size: .5625rem;
-  padding: 0 0.25rem;
-  border-radius: .625rem;
-  box-shadow: 0 0 0 1px #fff;
+.gamification-component #gamification_notif_value,
+#gamification_notif #gamification_notif_value {
+  color: #fff !important;
+  font-size: 0.625rem !important;
 }
