@@ -5,28 +5,32 @@
 
 #gamification_notif_number_wrapper {
   display: inline-block;
-  line-height: .775rem;
-  height: .875rem;
-  width: .875rem;
-  vertical-align: middle;
   position: absolute;
-  top: .3rem;
-  right: 0;
+  top: 4px;
+  top: -.3rem;
+  right: .2rem;
+  color: #fff; 
   background: #25b9d7;
-  font-size: .5625rem;
-  padding: 0 .25rem;
-  border-radius: .625rem;
+  font-size: 10px;
+  font-size: .625rem;
+  line-height: 12px;
+  line-height: .75rem;
+  padding: 0 3px;
+  padding: 0 .1875rem;
+  border-radius: 1rem;
+  border: 2px solid #fff;
+  border: .125rem solid #fff;
 }
 
 #gamification_notif .dropdown-menu {
   margin: 0;
   padding: 0;
   border-radius: 0;
-  min-width: 25rem;
+  min-width: 22rem;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid #bbcdd2;
-  top: 42px;
-  right: 5px !important;
+  top: 15px !important;
+  transform: translate3d(-324px, 20px, 0px) !important;
 }
 #gamification_notif .dropdown-menu:before, #gamification_notif .dropdown-menu:after{
   bottom: 100%;
@@ -41,7 +45,7 @@
 
 .gamification-component #gamification_notif .dropdown-menu:before, 
 .gamification-component #gamification_notif .dropdown-menu:after{
-  right: 55px;
+  right: 9px;
 }
 
 #gamification_notif .dropdown-menu:after{
@@ -366,12 +370,7 @@ li.badge_square {
   margin-right: 10px;
 }
 
-/*li.validated {
-	background: url('../img/validated.png') no-repeat 100px 0 transparent;
-}
-*/
 li.not_validated {
-  /*background: url('../img/not_validated.png') transparent no-repeat 100px 0;*/
   color: #ccc;
 }
 
@@ -424,4 +423,27 @@ li.not_validated {
 #gamification_notif #gamification_notif_value {
   color: #fff !important;
   font-size: 0.625rem !important;
+}
+
+/* Fix on legacy page */
+
+.bootstrap #header_infos #gamification_notif {
+  margin-left: .3125rem;
+}
+.bootstrap #header_infos .gamification_notif {
+  display: flex;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  line-height: 2.5rem;
+  align-items: center;
+}
+
+.bootstrap #header_infos .gamification_notif #gamification_notif_number_wrapper{
+  top: 0.25rem;
+  right: 0.9rem;
+}
+
+.bootstrap #header_infos #gamification_notif .dropdown-menu{
+  top: 22px !important;
+  transform: translate3d(-328px, 20px, 0px) !important;
 }
