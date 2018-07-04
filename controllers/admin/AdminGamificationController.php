@@ -15,7 +15,7 @@ class AdminGamificationController extends ModuleAdminController
         }
     }
     
-    public function setMedia()
+    public function setMedia($isNewTheme = false)
     {
         $this->addJqueryUI('ui.progressbar');
         $this->addJS(_MODULE_DIR_.$this->module->name.'/views/js/bubble-popup.js');
