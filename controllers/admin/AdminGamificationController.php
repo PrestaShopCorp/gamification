@@ -29,7 +29,7 @@ class AdminGamificationController extends ModuleAdminController
         $this->addJs(_MODULE_DIR_.$this->module->name.'/views/js/jquery.isotope.js');
         $this->addCSS(array(_MODULE_DIR_.$this->module->name.'/views/css/bubble-popup.css', _MODULE_DIR_.$this->module->name.'/views/css/isotope.css'));
         
-        return parent::setMedia();
+        return parent::setMedia($isNewTheme);
     }
     
     public function initToolBarTitle()
