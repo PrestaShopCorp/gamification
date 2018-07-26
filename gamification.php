@@ -257,7 +257,8 @@ class gamification extends Module
             'current_id_tab' => (int)$this->context->controller->id,
             'notification' => (int)Configuration::get('GF_NOTIFICATION'),
             'advice_hide_url' => 'http://gamification.prestashop.com/api/AdviceHide/',
-            ));
+            'gamification_base_url' => __PS_BASE_URI__.'modules/gamification/',
+        ));
 
         if (version_compare(_PS_VERSION_, '1.6.0', '>=')) {
             return $this->display(__FILE__, 'notification_bt.tpl');
