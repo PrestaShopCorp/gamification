@@ -145,23 +145,12 @@ class gamification extends Module
 
     public function enable($force_all = false)
     {
-        return parent::enable($force_all) && $this->updateTabStatus(1);
+        return parent::enable($force_all) && Tab::enablingForModule($this->name);
     }
 
     public function disable($force_all = false)
     {
-        return parent::disable($force_all) && $this->updateTabStatus(0);
-    }
-
-    private function updateTabStatus($status)
-    {
-        $id_tab = (int)Tab::getIdFromClassName('AdminGamification');
-        if ($id_tab) {
-            $tab = new Tab($id_tab);
-            $tab->active = (int)$status;
-            return $tab->update();
-        }
-        return false;
+        return parent::disable($force_all) && Tab::disablingForModule($this->name);
     }
     
     public function getContent()
