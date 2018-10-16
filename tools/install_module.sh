@@ -10,7 +10,11 @@ composer update --prefer-dist --no-interaction --no-progress
 echo Move Module Contents to Prestashop Modules Directory
 
 cd $TRAVIS_BUILD_DIR
+<<<<<<< HEAD
 rm -Rf     $TRAVIS_BUILD_DIR/modules/$1/*
+=======
+mkdir     $TRAVIS_BUILD_DIR/modules/$1
+>>>>>>> a5a7f7e... Added travis + tests + cs fixes
 cp -Rf    $MODULE_DIR/*              $TRAVIS_BUILD_DIR/modules/$1/
 
 # Enable the Module
