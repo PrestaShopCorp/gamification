@@ -29,7 +29,7 @@ env:
         - MODULE_SCRIPTS_DIR=/tmp/gamification/tools
 
     matrix:
-        - PS_VERSION=1.7.0.x
+        - PS_VERSION=1.7.1.x
         - PS_VERSION=1.7.5.x
         
     allow_failures:
