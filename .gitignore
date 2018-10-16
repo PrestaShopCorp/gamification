@@ -1,2 +1,4 @@
 data/data_*
 views/css/advice-*
+vendor/
+.php_cs.cache
