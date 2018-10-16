@@ -143,6 +143,16 @@ class gamification extends Module
         }
     }
 
+    public function enable($force_all = false)
+    {
+        return parent::enable($force_all) && Tab::enablingForModule($this->name);
+    }
+
+    public function disable($force_all = false)
+    {
+        return parent::disable($force_all) && Tab::disablingForModule($this->name);
+    }
+    
     public function getContent()
     {
         Tools::redirectAdmin($this->context->link->getAdminLink('AdminGamification'));
