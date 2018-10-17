@@ -45,7 +45,6 @@ before_script:
     - $MODULE_SCRIPTS_DIR/install_module.sh gamification
     
 script: 
-    - cd $MODULE_DIR
     - cd $TRAVIS_BUILD_DIR/modules/gamification
     - composer cs-fix-test
     - composer test
