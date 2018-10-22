@@ -348,7 +348,7 @@ class gamification extends Module
         $iso_currency = $this->context->currency->iso_code;
         $file_name = 'data_'.strtoupper($iso_lang).'_'.strtoupper($iso_currency).'_'.strtoupper($iso_country).'.json';
         $versioning = '?v='.$this->version.'&ps_version='._PS_VERSION_;
-        $data = Tools::file_get_contents($this->url_data.$file_name.$versioning);
+        $data = $this->retrieveJsonApiFile($this->url_data.$file_name.$versioning);
 
         return (bool)file_put_contents($this->cache_data.'data_'.strtoupper($iso_lang).'_'.strtoupper($iso_currency).'_'.strtoupper($iso_country).'.json', $data);
     }
@@ -566,5 +566,31 @@ class gamification extends Module
         $now = time();
 
         return $now < $lastFileUpdate;
+    }
+
+    /**
+     * Retrieve Json api file, forcing gzip compression to save bandwith.
+     * @param $url
+     * @return bool|mixed
+     */
+    private function retrieveJsonApiFile($url) {
+        Tools::refreshCACertFile();
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_CAINFO, _PS_CACHE_CA_CERT_FILE_);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 2);
+        curl_setopt($curl,CURLOPT_ENCODING , 'gzip');
+        curl_setopt($curl,CURLOPT_USERAGENT,'gzip');
+
+        $content = curl_exec($curl);
+        curl_close($curl);
+
+        return $content;
     }
 }
