@@ -35,3 +35,11 @@ That's it: you have contributed to this open-source project! Congratulations!
 [2]: http://doc.prestashop.com/display/PS16/How+to+write+a+commit+message
 [3]: https://help.github.com/articles/using-pull-requests
 
+### Execute the testsuite
+
+This module is shipped with a testsuite using PHPUnit, you need Composer to install the dependencies:
+
+```
+composer install
+composer test
+```
