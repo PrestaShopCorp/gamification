@@ -49,7 +49,7 @@ class gamification extends Module
         $this->version = '2.1.0';
         $this->author = 'PrestaShop';
         $this->ps_versions_compliancy = array(
-            'min' => '1.7.0.0',
+            'min' => '1.6.1.0',
         );
 
         parent::__construct();
@@ -205,7 +205,12 @@ class gamification extends Module
 
         if (method_exists($this->context->controller, 'addJquery')) {
             $this->context->controller->addJquery();
-            $this->context->controller->addCss($this->_path.'views/css/gamification.css');
+            $cssFile = 'gamification.css';
+            if (version_compare(_PS_VERSION_, '1.7.0.0', '<=')) {
+                $cssFile = 'gamification-1.6.css';
+            }
+            
+            $this->context->controller->addCss($this->_path.'views/css/'. $cssFile);
 
             //add css for advices
             $advices = Advice::getValidatedByIdTab($this->context->controller->id, true);
