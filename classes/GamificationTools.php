@@ -50,7 +50,8 @@ class GamificationTools
      * @param bool $withResponseHeaders
      * @return string|bool
      */
-    public static function retrieveJsonApiFile($url, $withResponseHeaders = false) {
+    public static function retrieveJsonApiFile($url, $withResponseHeaders = false)
+    {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -59,8 +60,8 @@ class GamificationTools
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_MAXREDIRS, 2);
-        curl_setopt($curl,CURLOPT_ENCODING , 'gzip');
-        curl_setopt($curl,CURLOPT_USERAGENT,'gzip');
+        curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
+        curl_setopt($curl, CURLOPT_USERAGENT, 'gzip');
         curl_setopt($curl, CURLOPT_HEADER, $withResponseHeaders);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, $withResponseHeaders);
 
