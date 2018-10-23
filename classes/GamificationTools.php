@@ -60,6 +60,7 @@ class GamificationTools
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_MAXREDIRS, 2);
+        // @see https://cloud.google.com/appengine/kb/#compression
         curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
         curl_setopt($curl, CURLOPT_USERAGENT, 'gzip');
         curl_setopt($curl, CURLOPT_HEADER, $withResponseHeaders);
