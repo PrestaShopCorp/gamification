@@ -64,7 +64,7 @@ class GamificationTools
         curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
         curl_setopt($curl, CURLOPT_USERAGENT, 'gzip');
         curl_setopt($curl, CURLOPT_HEADER, $withResponseHeaders);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, $withResponseHeaders);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         $content = curl_exec($curl);
 
