@@ -43,3 +43,11 @@ This module is shipped with a testsuite using PHPUnit, you need Composer to inst
 composer install
 composer test
 ```
+
+### Versions of PrestaShop supported
+
+This module is compatible with 1.6.1.x and 1.7.x versions.
+
+> As of 31th of october, 2018, PrestaShop 1.6.1.x will only receives security patches.
+
+This module is maintained for 1.7.4.x and above *only*.
