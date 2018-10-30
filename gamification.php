@@ -40,7 +40,7 @@ class gamification extends Module
 
     private $url_data = 'https://gamification.prestashop.com/json/';
 
-    private $cache_data = __DIR__.'/data/';
+    private $cache_data;
 
     public function __construct()
     {
@@ -56,6 +56,8 @@ class gamification extends Module
 
         $this->displayName = $this->l('Merchant Expertise');
         $this->description = $this->l('Become an e-commerce expert within the blink of an eye!');
+        
+        $this->cache_data = __DIR__.'/data/';
         if (self::TEST_MODE === true) {
             $this->url_data .= 'test/';
         }
