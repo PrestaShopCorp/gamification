@@ -40,13 +40,13 @@ class gamification extends Module
 
     private $url_data = 'https://gamification.prestashop.com/json/';
 
-    private $cache_data = __DIR__.'/data/';
+    private $cache_data;
 
     public function __construct()
     {
         $this->name = 'gamification';
         $this->tab = 'administration';
-        $this->version = '2.2.0';
+        $this->version = '2.2.1';
         $this->author = 'PrestaShop';
         $this->ps_versions_compliancy = array(
             'min' => '1.6.1.0',
@@ -56,6 +56,8 @@ class gamification extends Module
 
         $this->displayName = $this->l('Merchant Expertise');
         $this->description = $this->l('Become an e-commerce expert within the blink of an eye!');
+        
+        $this->cache_data = __DIR__.'/data/';
         if (self::TEST_MODE === true) {
             $this->url_data .= 'test/';
         }
