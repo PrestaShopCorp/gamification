@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-<<<<<<< HEAD
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd"
-=======
-    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.5/phpunit.xsd"
->>>>>>> a5a7f7e... Added travis + tests + cs fixes
     bootstrap="tests/autoload.php">
 
     <testsuites>
         <testsuite name="Unit tests">
             <directory>tests/unit/</directory>
         </testsuite>
-<<<<<<< HEAD
       <testsuite name="Functional tests">
         <directory>tests/functional/</directory>
       </testsuite>
     </testsuites>
 </phpunit>
-=======
-    </testsuites>
-</phpunit>
->>>>>>> a5a7f7e... Added travis + tests + cs fixes
