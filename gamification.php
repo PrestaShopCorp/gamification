@@ -35,7 +35,7 @@ include_once __DIR__.'/classes/GamificationTools.php';
 
 class gamification extends Module
 {
-    /* We recommend to not set it to true in production environment. */
+    // We recommend to not set it to true in production environment.
     const TEST_MODE = false;
 
     private $url_data = 'https://gamification.prestashop.com/json/';
