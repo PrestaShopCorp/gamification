@@ -290,7 +290,7 @@ class gamification extends Module
 
     public function refreshDatas($iso_lang = null)
     {
-        if (is_null($iso_lang)) {
+        if (null === $iso_lang) {
             $iso_lang = $this->context->language->iso_code;
         }
 
@@ -349,7 +349,7 @@ class gamification extends Module
 
     public function getData($iso_lang = null)
     {
-        if (is_null($iso_lang)) {
+        if (null === $iso_lang) {
             $iso_lang = $this->context->language->iso_code;
         }
         $iso_country = $this->context->country->iso_code;
