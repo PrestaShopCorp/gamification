@@ -56,7 +56,7 @@ class gamification extends Module
 
         $this->displayName = $this->l('Merchant Expertise');
         $this->description = $this->l('Become an e-commerce expert within the blink of an eye!');
-        
+
         $this->cache_data = __DIR__.'/data/';
         if (self::TEST_MODE === true) {
             $this->url_data .= 'test/';
@@ -211,7 +211,7 @@ class gamification extends Module
             if (version_compare(_PS_VERSION_, '1.7.0.0', '<=')) {
                 $cssFile = 'gamification-1.6.css';
             }
-            
+
             $this->context->controller->addCss($this->_path.'views/css/'. $cssFile);
 
             //add css for advices
