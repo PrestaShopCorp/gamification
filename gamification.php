@@ -279,7 +279,7 @@ class gamification extends Module
             'current_id_tab' => (int)$this->context->controller->id,
             'notification' => (int)Configuration::get('GF_NOTIFICATION'),
             'advice_hide_url' => 'https://gamification.prestashop.com/api/AdviceHide/',
-            ));
+        ));
 
         if (version_compare(_PS_VERSION_, '1.6.0', '>=')) {
             return $this->display(__FILE__, 'notification_bt.tpl');
@@ -525,7 +525,7 @@ class gamification extends Module
                 Db::getInstance()->insert(
                     'condition_advice',
                     array(
-                    'id_condition' => (int) $cond_ids[$cond], 'id_advice' => (int) $id_advice, 'display' => 1)
+                        'id_condition' => (int) $cond_ids[$cond], 'id_advice' => (int) $id_advice, 'display' => 1)
                 );
             }
         }
@@ -535,7 +535,7 @@ class gamification extends Module
                 Db::getInstance()->insert(
                     'condition_advice',
                     array(
-                    'id_condition' => (int) $cond_ids[$cond], 'id_advice' => (int) $id_advice, 'display' => 0)
+                        'id_condition' => (int) $cond_ids[$cond], 'id_advice' => (int) $id_advice, 'display' => 0)
                 );
             }
         }
@@ -546,7 +546,7 @@ class gamification extends Module
                 Db::getInstance()->insert(
                     'tab_advice',
                     array(
-                    'id_tab' => (int)Tab::getIdFromClassName($tab), 'id_advice' => (int) $id_advice)
+                        'id_tab' => (int)Tab::getIdFromClassName($tab), 'id_advice' => (int) $id_advice)
                 );
             }
         }
