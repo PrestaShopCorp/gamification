@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 class AdviceTest extends TestCase
 {
     /**
-     * @var array the list of expected properties of Advice model.
+     * @var array the list of expected properties of Advice model
      */
     const ADVICE_PROPERTIES = [
         'table',
@@ -15,7 +15,7 @@ class AdviceTest extends TestCase
     ];
 
     /**
-     * @var array the list of fields of Advice model.
+     * @var array the list of fields of Advice model
      */
     const ADVICE_FIELDS = [
         'id_ps_advice',
@@ -30,7 +30,7 @@ class AdviceTest extends TestCase
     ];
 
     /**
-     * @var array the Advice.
+     * @var array the Advice
      */
     private $advice;
 
