@@ -70,7 +70,6 @@ class GamificationTools
 
         curl_close($curl);
 
-
         return $content;
     }
 }
