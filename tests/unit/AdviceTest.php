@@ -34,7 +34,7 @@ class AdviceTest extends TestCase
      */
     private $advice;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->advice = new Advice();
     }
