@@ -348,6 +348,7 @@ class Condition extends ObjectModel
                 break;
             break;
         }
+
         return (bool)$result;
     }
 }
