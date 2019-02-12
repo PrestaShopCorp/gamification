@@ -196,6 +196,7 @@ class gamification extends Module
      * Calls the server.
      *
      * @return bool|string
+     *
      * @throws PrestaShopException
      */
     public function hookDisplayBackOfficeHeader()

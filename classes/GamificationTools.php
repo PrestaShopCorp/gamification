@@ -46,8 +46,10 @@ class GamificationTools
 
     /**
      * Retrieve Json api file, forcing gzip compression to save bandwith.
+     *
      * @param string $url
      * @param bool $withResponseHeaders
+     *
      * @return string|bool
      */
     public static function retrieveJsonApiFile($url, $withResponseHeaders = false)
