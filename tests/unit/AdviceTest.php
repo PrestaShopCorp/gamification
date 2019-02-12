@@ -43,16 +43,16 @@ class AdviceTest extends TestCase
     {
         $definition = Advice::$definition;
 
-        self::assertInternalType('array', $definition);
+        $this->assertInternalType('array', $definition);
 
         foreach (self::ADVICE_PROPERTIES as $property) {
-            self::assertArrayHasKey($property, $definition);
+            $this->assertArrayHasKey($property, $definition);
         }
 
         $fieldsProperty = $definition['fields'];
 
         foreach (self::ADVICE_FIELDS as $field) {
-            self::assertArrayHasKey($field, $fieldsProperty);
+            $this->assertArrayHasKey($field, $fieldsProperty);
         }
     }
 }
