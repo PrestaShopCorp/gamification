@@ -158,7 +158,6 @@ class AdminGamificationController extends ModuleAdminController
             }
         }
         
-        
         $return['level_badge_validation'] = $this->processLevelAndBadgeValidation(Badge::getIdsBadgesToValidate());
         $return['header_notification'] = $this->module->renderHeaderNotification();
         
@@ -174,7 +173,6 @@ class AdminGamificationController extends ModuleAdminController
     {
         $return = array('advices' => array());
 
-        
         $id_tab = (int)Tools::getValue('id_tab');
         $ids_ps_advice = Tools::getValue('ids_ps_advice');
         
@@ -196,6 +194,7 @@ class AdminGamificationController extends ModuleAdminController
                 }
             }
         }
+
         return $return;
     }
     
@@ -207,6 +206,7 @@ class AdminGamificationController extends ModuleAdminController
             $cond = new Condition((int)$id);
             $return &= $cond->processCalculation();
         }
+
         return $return;
     }
     
@@ -227,6 +227,7 @@ class AdminGamificationController extends ModuleAdminController
             $advice->validated = 0;
             $return &= $advice->save();
         }
+
         return $return;
     }
     
@@ -272,6 +273,7 @@ class AdminGamificationController extends ModuleAdminController
         Configuration::updateGlobalValue('GF_NOT_VIEWED_BADGE', implode('|', array_unique($not_viewed_badge)));
         Configuration::updateGlobalValue('GF_CURRENT_LEVEL', (int)$current_level);
         Configuration::updateGlobalValue('GF_CURRENT_LEVEL_PERCENT', (int)$current_level_percent);
+
         return $return;
     }
     
