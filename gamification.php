@@ -96,7 +96,7 @@ class gamification extends Module
     public function installDb()
     {
         $return = true;
-        include(__DIR__.'/sql_install.php');
+        include __DIR__.'/sql_install.php';
         foreach ($sql as $s) {
             $return &= Db::getInstance()->execute($s);
         }
@@ -106,7 +106,7 @@ class gamification extends Module
 
     public function uninstallDb()
     {
-        include(__DIR__.'/sql_install.php');
+        include __DIR__.'/sql_install.php';
         foreach ($sql as $name => $v) {
             Db::getInstance()->execute('DROP TABLE '.$name);
         }
