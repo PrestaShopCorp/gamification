@@ -2,10 +2,10 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-/*========== Mocks ===========*/
+// ========== Mocks ===========
 require_once __DIR__ . '/mocks/ObjectModel.php';
 
-/*======== Classes ===========*/
+// ======== Classes ===========
 require_once __DIR__ . '/../classes/Advice.php';
 require_once __DIR__ . '/../classes/GamificationTools.php';
 
