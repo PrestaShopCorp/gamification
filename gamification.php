@@ -56,7 +56,7 @@ class gamification extends Module
 
         $this->displayName = $this->l('Merchant Expertise');
         $this->description = $this->l('Become an e-commerce expert within the blink of an eye!');
-        
+
         $this->cache_data = __DIR__.'/data/';
         if (self::TEST_MODE === true) {
             $this->url_data .= 'test/';
@@ -70,14 +70,18 @@ class gamification extends Module
         }
 
         Tools::deleteDirectory($this->cache_data, false);
-        if (!$this->installDb() || !$this->installTab() ||
-            !Configuration::updateGlobalValue('GF_INSTALL_CALC', 0) ||
-            !Configuration::updateGlobalValue('GF_CURRENT_LEVEL', 1) || !Configuration::updateGlobalValue('GF_CURRENT_LEVEL_PERCENT', 0) ||
-            !Configuration::updateGlobalValue('GF_NOTIFICATION', 0) || !parent::install() || !$this->registerHook('displayBackOfficeHeader')) {
-            return false;
-        }
 
-        return true;
+        return (
+            $this->installDb()
+            && $this->installTab()
+            && Configuration::updateGlobalValue('GF_INSTALL_CALC', 0)
+            && Configuration::updateGlobalValue('GF_CURRENT_LEVEL', 1)
+            && Configuration::updateGlobalValue('GF_CURRENT_LEVEL_PERCENT', 0)
+            && Configuration::updateGlobalValue('GF_NOTIFICATION', 0)
+            && parent::install()
+            && $this->registerHook('actionAdminControllerSetMedia')
+            && $this->registerHook('displayBackOfficeHeader')
+       );
     }
 
     public function uninstall()
@@ -200,6 +204,30 @@ class gamification extends Module
     }
 
     /**
+     *
+     */
+    public function hookActionAdminControllerSetMedia()
+    {
+        if ($this->isUpdating() || !Module::isEnabled($this->name)) {
+            return;
+        }
+
+        if (method_exists($this->context->controller, 'addJquery')) {
+            $cssFile = 'gamification.css';
+            if (version_compare(_PS_VERSION_, '1.7.0.0', '<=')) {
+                $cssFile = 'gamification-1.6.css';
+                $this->context->controller->addJquery();
+            }
+
+            $this->context->controller->addCss($this->_path . 'views/css/' . $cssFile);
+
+            $this->context->controller->addJs($this->_path . 'views/js/gamification_bt.js');
+
+            $this->context->controller->addJqueryPlugin('fancybox');
+        }
+    }
+
+    /**
      * Calls the server.
      *
      * @return bool|string
@@ -208,47 +236,36 @@ class gamification extends Module
      */
     public function hookDisplayBackOfficeHeader()
     {
-        //check if currently updatingcheck if module is currently processing update
         if ($this->isUpdating() || !Module::isEnabled($this->name)) {
             return false;
         }
 
         if (method_exists($this->context->controller, 'addJquery')) {
-            $this->context->controller->addJquery();
-            $cssFile = 'gamification.css';
-            if (version_compare(_PS_VERSION_, '1.7.0.0', '<=')) {
-                $cssFile = 'gamification-1.6.css';
-            }
-            
-            $this->context->controller->addCss($this->_path.'views/css/'. $cssFile);
 
             //add css for advices
             $advices = Advice::getValidatedByIdTab($this->context->controller->id, true);
 
             $css_str = $js_str = '';
             foreach ($advices as $advice) {
-                $advice_css_path = __DIR__.'/views/css/advice-'._PS_VERSION_.'_'.(int)$advice['id_ps_advice'].'.css';
+                $advice_css_path = __DIR__ . '/views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css';
 
                 // 24h cache
                 if (!$this->isFresh($advice_css_path, 86400)) {
-                    $advice_css_content = Tools::file_get_contents(Tools::getShopProtocol().'gamification.prestashop.com/css/advices/advice-'._PS_VERSION_.'_'.(int)$advice['id_ps_advice'].'.css');
+                    $advice_css_content = Tools::file_get_contents(
+                        Tools::getShopProtocol(
+                        ) . 'gamification.prestashop.com/css/advices/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css'
+                    );
                     file_put_contents($advice_css_path, $advice_css_content);
                 }
 
                 if (filesize($advice_css_path) > 0) {
-                    $this->context->controller->addCss($this->_path.'views/css/advice-'._PS_VERSION_.'_'.(int)$advice['id_ps_advice'].'.css');
+                    $this->context->controller->addCss(
+                        $this->_path . 'views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css'
+                    );
                 }
 
-                $js_str .= '"'.(int)$advice['id_ps_advice'].'",';
+                $js_str .= '"' . (int) $advice['id_ps_advice'] . '",';
             }
-
-            if (version_compare(_PS_VERSION_, '1.6.0', '>=') === true) {
-                $this->context->controller->addJs($this->_path.'views/js/gamification_bt.js');
-            } else {
-                $this->context->controller->addJs($this->_path.'views/js/gamification.js');
-            }
-
-            $this->context->controller->addJqueryPlugin('fancybox');
 
             return $css_str.'<script>
 				var ids_ps_advice = new Array('.rtrim($js_str, ',').');
