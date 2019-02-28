@@ -174,8 +174,7 @@ ul#gamification_badges_list li span {
 }
 
 ul#gamification_badges_list li.unlocked {
-  background: #fffbe2;
-  border: 1px solid #ebdfab;
+  background: #fff;
   margin-right: 7px;
 }
 
@@ -219,7 +218,7 @@ ul#gamification_badges_list li.locked .gamification_badges_name {
   -o-border-radius: 15px;
   -webkit-border-radius: 15px;
   border-radius: 15px;
-  background-image: url(../img/bg_bar_global.png)
+  /*background-image: url(../img/bg_bar_global.png)*/
 }
 
 #gamification_progressbar .gamification_progress-label {
@@ -235,28 +234,27 @@ ul#gamification_badges_list li.locked .gamification_badges_name {
   border: 1px solid #8aa96d
 }
 
-#gamification_progressbar .ui-widget-header {
-  background-image: url(../img/gamification-bar-bg.png);
-  margin-top: -18px;
-}
-
 #gamification_progressbar_tab {
   -moz-border-radius: 15px;
   -o-border-radius: 15px;
   -webkit-border-radius: 15px;
   border-radius: 15px;
-  background-image: url(../img/bg_bar_global.png);
-  float: left;
-  height: 25px;
+  border: none;
+  background: #ECECEC;
+  height: 23px;
   position: relative;
-  width: 87%;
+  width: 69%;
 }
 
-#completion_gamification #gamification_progress-label_tab {
-  float: left;
-  width: 10%;
-  margin-left: 15px;
-  text-align: left;
+#completion_gamification .gamification_progress-label,
+#completion_gamification .gamification_progress-label_percent {
+  color: #251B5B
+}
+
+#completion_gamification .gamification_progress-label_percent {
+  font-size: 30px;
+  font-weight: 600;
+  margin-left: 20px;
 }
 
 #gamification_progressbar_tab .ui-progressbar-value {
@@ -270,79 +268,186 @@ ul#gamification_badges_list li.locked .gamification_badges_name {
 }
 
 #gamification_progressbar_tab .ui-widget-header {
-  background-image: url(../img/gamification-bar-bg.png);
+  background: linear-gradient(270deg, #3E2CA1 0%, #252B67 100%);
+  background: -moz-linear-gradient(270deg, #3E2CA1 0%, #252B67 100%);
+  background: -ms-linear-gradient(270deg, #3E2CA1 0%, #252B67 100%);
+  background: -o-linear-gradient(270deg, #3E2CA1 0%, #252B67 100%);
+  height: 17px;
+  margin: 3px;
+  border: none;
 }
 
 /******* intro gamification *******/
 
 #intro_gamification {
   border-bottom: 1px solid #ccced7;
-  float: left;
+  display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
 }
 
-#intro_gamification h4, #completion_gamification h4 {
+@media screen and (max-width: 768px){
+  #intro_gamification {
+    flex-direction: column
+  }
+}
+
+#intro_gamification h2, 
+#completion_gamification h2 {
   margin-top: 10px;
-  font-weight: bold;
-  font-size: 18px;
   color: #343943;
-  text-shadow: 1px 1px 1px #fff
+  font-family: Open Sans,sans-serif;
+  font-size: 20px;  
+  font-weight: 600; 
+  line-height: 27px;
 }
 
-#intro_gamification h4 {
+@media screen and (max-width: 768px){
+  #completion_gamification h2 {
+    margin-bottom: 20px
+  }
+}
+
+#intro_gamification p,
+#intro_gamification li,
+#intro_gamification a {
+  font-size: 14px;
+  line-height: 19px;
+}
+
+
+#intro_gamification h2 {
   margin-top: 0;
+  margin-bottom: 16px;
+  color: #252B67;
 }
 
-#intro_gamification #left_intro {
-  float: left;
-  width: 67%;
-  padding-right: 20px;
-  border-right: 1px solid #ccced7;
+#intro_gamification .left_intro {
+  max-width: 350px;
+  /*padding-right: 30px;*/
 }
 
-#intro_gamification #left_intro p {
+#intro_gamification .central_intro {
+  padding-right: 102px;
+  width: 60%;
+  padding-left: 30px;
+}
+
+@media screen and (max-width: 768px){
+  #intro_gamification .central_intro {
+    width: auto;
+    margin: 30px;
+  }
+}
+
+#intro_gamification .central_intro .central_intro_list{
+  padding-left: 0;
+  list-style-type: none;
+  counter-reset: counting;
+}
+
+#intro_gamification .central_intro .central_intro_list li:before {
+  counter-increment: counting 1;
+  content: counter(counting) " - ";
+}
+
+#intro_gamification .central_intro p {
   text-align: justify;
-  float: left;
   width: 100%;
   margin-bottom: 20px
 }
 
-#intro_gamification #right_intro {
-  float: left;
+#intro_gamification .right_intro {
   padding-left: 20px;
-  border-left: 1px solid #ffffff;
-  width: 23%
+  max-width: 350px;
+  background-color: #F7F6FD;
+  border-radius: 4px;
+  padding: 56px 47px 34px;
+  position: relative;
+  min-height: 200px;
 }
 
-#intro_gamification #right_intro a {
-  color: #268ccd;
-  font-size: 15px;
-  font-weight: bold
-
+@media screen and (min-width: 1441px){
+  #intro_gamification .right_intro {
+    margin-top: 30px;
+  }
 }
 
-#intro_gamification #right_intro li {
-  color: #343943;
-  font-size: 15px;
-  font-weight: bold
+#intro_gamification .right_intro img{
+  display: block;
+  margin: 0 auto;
+  position: absolute;
+  top: -24px;
+  left: 0;
+  right: 0;
 }
 
-#intro_gamification #right_intro li span, #intro_gamification #right_intro li a {
-  line-height: 22px
+#intro_gamification .right_intro h3.right_intro_title {
+  color: #251B5B;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 auto 26px;
+  text-transform: inherit;
+  border: none;
+  line-height: inherit;
+  height: auto;
+  max-width: 224px;
+}
+
+#intro_gamification .right_intro .right_intro_btn-contact {
+  display: block;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 227px; 
+  border-radius: 2px; 
+  background-color: #252B67;
+  padding: 10px 0;
+  position: relative;
+}
+
+#intro_gamification .right_intro .right_intro_btn-contact:before{
+  position: absolute;
+  content:'';
+  width: 33px;
+  height: 33px;
+  background: url(../img/sparks.png) no-repeat;
+  top: -20px;
+  right: -27px;
 }
 
 #completion_gamification {
-  border-top: 1px solid #ffffff;
-  clear: both
+  display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: -11px;
+  padding: 0 10px;
 }
 
-.gamification_progress-label, .gamification_progress-label_tab {
+@media screen and (max-width: 768px){
+  #completion_gamification {
+    flex-direction: column
+  }
+}
+
+.gamification_progress-label, 
+.gamification_progress-label_tab {
   text-align: center;
   display: block;
   top: 3px;
   font-weight: bold;
   text-shadow: 1px 1px 0 #fff;
   position: relative;
-  z-index: 1000;
+  z-index: 1;
   color: #68737f;
   font-size: 17px
 }
@@ -361,7 +466,7 @@ ul.badge_list {
 li.badge_square {
   display: block;
   float: left;
-  height: 110px;
+  height: 135px;
   width: 100px;
   background-color: transparent;
   border: none;
