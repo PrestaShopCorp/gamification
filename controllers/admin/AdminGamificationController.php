@@ -4,6 +4,12 @@ include_once __DIR__.'/../../classes/Condition.php';
 
 class AdminGamificationController extends ModuleAdminController
 {
+    /**
+     * @var gamification
+     */
+    public $module;
+
+
     public function __construct()
     {
         $this->bootstrap = true;
