@@ -338,7 +338,7 @@ class gamification extends Module
                     return false;
                 }
 
-                $this->processCleanAdvices(array_merge($data->advices, $data->advices_16));
+                $this->processCleanAdvices();
 
                 if (function_exists('openssl_verify') && self::TEST_MODE === false) {
                     if (!openssl_verify(Tools::jsonencode(array($data->conditions, $data->advices_lang)), base64_decode($data->signature), file_get_contents(__DIR__.'/prestashop.pub'))) {
