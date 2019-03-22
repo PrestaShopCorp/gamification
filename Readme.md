@@ -6,7 +6,7 @@ Become an e-commerce expert within the blink of an eye!
 
 ## Reporting issues
 
-All issues are tracked in the main PrestaShop repository: [submit an issue here][submit-ssue].
+All issues are tracked in the main PrestaShop repository: [submit an issue here][submit-issue].
 
 ## Contributing
 
