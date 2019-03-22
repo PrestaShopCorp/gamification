@@ -18,7 +18,7 @@ Contributors **must** follow the following rules:
 
 * **Make your Pull Request on the "dev" branch**, NOT the "master" branch.
 * Do not update the module's version number.
-* Follow [the coding standards][1].
+* Follow [the coding standards][coding-standards].
 
 ### Process in details
 
