@@ -245,7 +245,7 @@ class gamification extends Module
             //add css for advices
             $advices = Advice::getValidatedByIdTab($this->context->controller->id, true);
 
-            $css_str = $js_str = '';
+            $css_str = '';
             foreach ($advices as $advice) {
                 $advice_css_path = __DIR__ . '/views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css';
 
@@ -263,16 +263,15 @@ class gamification extends Module
                         $this->_path . 'views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css'
                     );
                 }
-
-                $js_str .= '"' . (int) $advice['id_ps_advice'] . '",';
             }
 
             return $css_str.'<script>
-				var ids_ps_advice = new Array('.rtrim($js_str, ',').');
 				var admin_gamification_ajax_url = \''.$this->context->link->getAdminLink('AdminGamification').'\';
 				var current_id_tab = '.(int)$this->context->controller->id.';
 			</script>';
         }
+
+        return false;
     }
 
     public function renderHeaderNotification()

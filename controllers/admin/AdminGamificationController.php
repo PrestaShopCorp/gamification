@@ -180,7 +180,6 @@ class AdminGamificationController extends ModuleAdminController
         $return = array('advices' => array());
 
         $id_tab = (int)Tools::getValue('id_tab');
-        $ids_ps_advice = Tools::getValue('ids_ps_advice');
 
         if ($only_premium) {
             $advices = Advice::getValidatedPremiumOnlyByIdTab($id_tab);
@@ -188,17 +187,13 @@ class AdminGamificationController extends ModuleAdminController
             $advices = Advice::getValidatedByIdTab($id_tab);
         }
 
-        if (is_array($ids_ps_advice)) {
-            foreach ($advices as $advice) {
-                if (is_array($ids_ps_advice) && in_array($advice['id_ps_advice'], $ids_ps_advice)) {
-                    $return['advices'][] = array(
-                        'selector' => $advice['selector'],
-                        'html' => GamificationTools::parseMetaData($advice['html']),
-                        'location' => $advice['location'],
-                        'weight' => (int)$advice['weight']
-                    );
-                }
-            }
+        foreach ($advices as $advice) {
+            $return['advices'][] = array(
+                'selector' => $advice['selector'],
+                'html' => GamificationTools::parseMetaData($advice['html']),
+                'location' => $advice['location'],
+                'weight' => (int)$advice['weight']
+            );
         }
 
         return $return;
