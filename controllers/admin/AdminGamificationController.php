@@ -159,7 +159,7 @@ class AdminGamificationController extends ModuleAdminController
 
                 $return['advices_premium_to_display']['advices'] = array($weighted_advices_array[$rand], $weighted_advices_array[$rand2]);
             } elseif (count($return['advices_premium_to_display']['advices']) > 0) {
-                $addons = Advice::getAddonsAdviceByIdTab((int)Tools::getValue('id_tab'));
+                $addons = Advice::getValidatedAddonsOnlyByIdTab((int)Tools::getValue('id_tab'));
                 $return['advices_premium_to_display']['advices'][] = array_shift($addons);
             }
         }
@@ -183,7 +183,7 @@ class AdminGamificationController extends ModuleAdminController
         $ids_ps_advice = Tools::getValue('ids_ps_advice');
 
         if ($only_premium) {
-            $advices = Advice::getValidatedPremiumByIdTab($id_tab);
+            $advices = Advice::getValidatedPremiumOnlyByIdTab($id_tab);
         } else {
             $advices = Advice::getValidatedByIdTab($id_tab);
         }

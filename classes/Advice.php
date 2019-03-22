@@ -127,7 +127,7 @@ class Advice extends ObjectModel
         return $advices;
     }
 
-    public static function getValidatedPremiumByIdTab($id_tab)
+    public static function getValidatedPremiumOnlyByIdTab($id_tab)
     {
         $advices = self::getValidatedByIdTab($id_tab, true);
 
@@ -136,11 +136,11 @@ class Advice extends ObjectModel
                 unset($advices[$k]);
             }
         }
-        
+
         return $advices;
     }
 
-    public static function getAddonsAdviceByIdTab($id_tab)
+    public static function getValidatedAddonsOnlyByIdTab($id_tab)
     {
         $advices = self::getValidatedByIdTab($id_tab, false, true);
         foreach ($advices as $k => $a) {
