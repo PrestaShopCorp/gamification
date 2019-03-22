@@ -241,31 +241,7 @@ class gamification extends Module
         }
 
         if (method_exists($this->context->controller, 'addJquery')) {
-
-            //add css for advices
-            $advices = Advice::getValidatedByIdTab($this->context->controller->id, true);
-
-            $css_str = '';
-            foreach ($advices as $advice) {
-                $advice_css_path = __DIR__ . '/views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css';
-
-                // 24h cache
-                if (!$this->isFresh($advice_css_path, 86400)) {
-                    $advice_css_content = Tools::file_get_contents(
-                        Tools::getShopProtocol(
-                        ) . 'gamification.prestashop.com/css/advices/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css'
-                    );
-                    file_put_contents($advice_css_path, $advice_css_content);
-                }
-
-                if (filesize($advice_css_path) > 0) {
-                    $this->context->controller->addCss(
-                        $this->_path . 'views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css'
-                    );
-                }
-            }
-
-            return $css_str.'<script>
+            return '<script>
 				var admin_gamification_ajax_url = \''.$this->context->link->getAdminLink('AdminGamification').'\';
 				var current_id_tab = '.(int)$this->context->controller->id.';
 			</script>';
