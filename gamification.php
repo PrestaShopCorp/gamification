@@ -240,14 +240,12 @@ class gamification extends Module
             return false;
         }
 
-        if (method_exists($this->context->controller, 'addJquery')) {
-            return '<script>
-				var admin_gamification_ajax_url = \''.$this->context->link->getAdminLink('AdminGamification').'\';
-				var current_id_tab = '.(int)$this->context->controller->id.';
-			</script>';
-        }
-
-        return false;
+        return '<script>
+            var admin_gamification_ajax_url = ' . (string) json_encode(
+                $this->context->link->getAdminLink('AdminGamification')
+            ) . ';
+            var current_id_tab = ' . (int) $this->context->controller->id . ';
+        </script>';
     }
 
     public function renderHeaderNotification()
