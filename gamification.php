@@ -306,15 +306,15 @@ class gamification extends Module
 
         if (!$this->isFresh($cache_file, 86400)) {
             if ($this->getData($iso_lang)) {
-                $data = Tools::jsonDecode(Tools::file_get_contents($cache_file));
-                if (!isset($data->signature)) {
+                $data = json_decode(Tools::file_get_contents($cache_file));
+                if (json_last_error() !== JSON_ERROR_NONE || !isset($data->signature)) {
                     return false;
                 }
 
                 $this->processCleanAdvices();
 
                 if (function_exists('openssl_verify') && self::TEST_MODE === false) {
-                    if (!openssl_verify(Tools::jsonencode(array($data->conditions, $data->advices_lang)), base64_decode($data->signature), file_get_contents(__DIR__.'/prestashop.pub'))) {
+                    if (!openssl_verify(json_encode(array($data->conditions, $data->advices_lang)), base64_decode($data->signature), file_get_contents(__DIR__.'/prestashop.pub'))) {
                         return false;
                     }
                 }
@@ -333,7 +333,7 @@ class gamification extends Module
                 }
 
                 if (function_exists('openssl_verify') && self::TEST_MODE === false) {
-                    if (!openssl_verify(Tools::jsonencode(array($data->advices_lang_16)), base64_decode($data->signature_16), file_get_contents(__DIR__.'/prestashop.pub'))) {
+                    if (!openssl_verify(json_encode(array($data->advices_lang_16)), base64_decode($data->signature_16), file_get_contents(__DIR__.'/prestashop.pub'))) {
                         return false;
                     }
                 }

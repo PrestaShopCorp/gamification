@@ -167,7 +167,9 @@ class AdminGamificationController extends ModuleAdminController
         $return['level_badge_validation'] = $this->processLevelAndBadgeValidation(Badge::getIdsBadgesToValidate());
         $return['header_notification'] = $this->module->renderHeaderNotification();
 
-        die(Tools::jsonEncode($return));
+        echo json_encode($return);
+
+        exit;
     }
 
     public function processRefreshData()
