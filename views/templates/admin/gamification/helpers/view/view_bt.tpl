@@ -68,7 +68,16 @@
 	<div id="completion_gamification">
 		<h2>{l s='Completion level' mod='gamification'}</h2>
 		<div id="gamification_progressbar_tab"></div>
-		<p class="gamification_progress-label">{l s="Level" mod='gamification'}&nbsp;{$current_level|intval}: <span class="gamification_progress-label_percent">{$current_level_percent|intval}&nbsp;%</span></p> 
+		<p class="gamification_progress-label">{l
+			s="Level %current%: [1]%current_level_percent%%[/1]"
+			sprintf=[
+				'%current%' => $current_level|intval,
+				'[1]' => '<span class="gamification_progress-label_percent">',
+				'%current_level_percent%' => $current_level_percent|intval
+				'[/1]' => '</span>'
+			]
+			mod='gamification'
+		}</p> 
 	</div>
 	&nbsp;
 </div>
