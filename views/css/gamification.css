@@ -218,7 +218,6 @@ ul#gamification_badges_list li.locked .gamification_badges_name {
   -o-border-radius: 15px;
   -webkit-border-radius: 15px;
   border-radius: 15px;
-  /*background-image: url(../img/bg_bar_global.png)*/
 }
 
 #gamification_progressbar .gamification_progress-label {
@@ -290,7 +289,7 @@ ul#gamification_badges_list li.locked .gamification_badges_name {
   padding-bottom: 10px;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   #intro_gamification {
     flex-direction: column
   }
@@ -328,7 +327,6 @@ ul#gamification_badges_list li.locked .gamification_badges_name {
 
 #intro_gamification .left_intro {
   max-width: 350px;
-  /*padding-right: 30px;*/
 }
 
 #intro_gamification .central_intro {
