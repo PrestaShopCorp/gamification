@@ -242,7 +242,7 @@ class gamification extends Module
 
         return '<script>
             var admin_gamification_ajax_url = ' . (string) json_encode(
-                $this->context->link->getAdminLink('AdminGamification')
+            $this->context->link->getAdminLink('AdminGamification')
             ) . ';
             var current_id_tab = ' . (int) $this->context->controller->id . ';
         </script>';
