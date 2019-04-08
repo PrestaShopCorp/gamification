@@ -60,7 +60,7 @@
 			<p>{l s="The more progress your store makes, the more badges and points you earn. Take advantage and check it out below!" mod='gamification'}</p>
 		</div>
 		<div class="right_intro">
-			<img src="../modules/gamification/views/img/employee.png" alt="{l s="Employee" mod='gamification'}">
+			<img src="{$base_url}/modules/gamification/views/img/employee.png" alt="{l s="Employee" mod='gamification'}">
 			<h3 class="text-center right_intro_title">{l s="Our team is available to help, contact us today!" mod='gamification'}</h3>
 				<a class="text-center right_intro_btn-contact" href="http://www.prestashop.com/en/contact-us?utm_source=gamification">{l s="Fill out a contact form" mod='gamification'}</a>
 		</div>
