@@ -50,7 +50,8 @@
 		<div class="central_intro">
 			<h2>{l s="Become an e-commerce expert in leaps and bounds!" mod='gamification'}</h2>
 			<p>
-				{l s="In order to to make you succeed in the e-commerce world, we have created a system of badges and points to help you monitor your progress as a merchant. The system has three levels: " mod='gamification'}
+				{l s="In order to make you succeed in the e-commerce world, we have created a system of badges and points to help you monitor your progress as a merchant. The system has three levels:" mod='gamification'}
+				
 			</p>
 			<ol class="central_intro_list">
 				<li>{l s="Your use of key e-commerce features on your store " mod='gamification'}</li>
