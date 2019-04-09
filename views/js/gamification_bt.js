@@ -4,9 +4,6 @@ $(document).ready( function () {
 
 function gamificationTasks()
 {
-  if (typeof ids_ps_advice == 'undefined')
-    ids_ps_advice = new Array();
-
   gamificationInsertOnBackOfficeDOM('<div id="gamification_notif" class="notifs"></div>');
   $.ajax({
     type: 'POST',
@@ -17,7 +14,6 @@ function gamificationTasks()
       action : 'gamificationTasks',
       ajax : true,
       id_tab : current_id_tab,
-      ids_ps_advice : ids_ps_advice,
     },
     success: function(jsonData)
     {

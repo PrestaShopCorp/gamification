@@ -27,27 +27,27 @@
 class Advice extends ObjectModel
 {
     public $id;
-    
+
     public $id_ps_advice;
-        
+
     public $id_tab;
-    
+
     public $validated;
 
     public $hide;
-    
+
     public $selector;
-    
+
     public $location;
-    
+
     public $html;
-    
+
     public $start_day;
-    
+
     public $stop_day;
 
     public $weight;
-    
+
     /**
      * @see ObjectModel::$definition
      */
@@ -69,33 +69,63 @@ class Advice extends ObjectModel
             'html' =>            array('type' => self::TYPE_HTML, 'lang' => true, 'required' => true, 'validate' => 'isString'),
         ),
     );
-    
+
     public static function getIdByIdPs($id_ps_advice)
     {
         $query = new DbQuery();
         $query->select('id_advice');
         $query->from('advice', 'b');
         $query->where('`id_ps_advice` = '.(int)$id_ps_advice);
-        
+
         return (int)Db::getInstance()->getValue($query);
     }
 
-    public static function getValidatedByIdTab($id_tab, $premium = false, $addons = false)
+    /**
+     * @param int $idTab
+     * @param bool $includePremium [default=false] True to include Premium as well
+     * @param bool $includeAddons [default=false] True to include Addons as well
+     *
+     * @return array[]
+     * @throws PrestaShopDatabaseException
+     */
+    public static function getValidatedByIdTab($idTab, $includePremium = false, $includeAddons = false)
     {
         $query = new DbQuery();
         $query->select('a.`id_ps_advice`, a.`selector`, a.`location`, al.`html`, a.`weight`');
         $query->from('advice', 'a');
         $query->join('
 			LEFT JOIN `'._DB_PREFIX_.'advice_lang` al ON al.`id_advice` = a.`id_advice`
-			LEFT JOIN `'._DB_PREFIX_.'tab_advice` at ON at.`id_advice` = a.`id_advice` ');
-        
-        $query->where('
-			a.`validated` = 1 AND 
-			a.`hide` = 0 AND 
-			al.`id_lang` = '.(int)Context::getContext()->language->id.' AND 
-			at.`id_tab` = '.(int)$id_tab.' AND 
-			((a.`start_day` = 0 AND a.`stop_day` = 0) OR ('.date('d').' >= a.`start_day` AND '.date('d').' <= a.`stop_day`))');
-        
+			LEFT JOIN `'._DB_PREFIX_.'tab_advice` at ON at.`id_advice` = a.`id_advice`
+        ');
+
+        $selectorsToExclude = array();
+        if (!$includePremium) {
+            $selectorsToExclude[] = '#dashtrends';
+        }
+        if (!$includeAddons) {
+            $selectorsToExclude[] = 'addons';
+        }
+
+        $selectorsToExcludeSql = '';
+        if (!empty($selectorsToExclude)) {
+            $selectorsToExcludeSql = 'AND a.selector NOT IN("' . implode('","', $selectorsToExclude) . '")';
+        }
+
+        $query->where(sprintf(
+            "a.validated = 1 
+			AND a.hide = 0
+			AND al.id_lang = %d
+			AND at.id_tab = %d
+			$selectorsToExcludeSql
+			AND (
+			    (a.start_day = 0 AND a.stop_day = 0)
+			    OR (%s BETWEEN a.start_day AND a.stop_day)
+            )",
+            (int) Context::getContext()->language->id,
+            $idTab,
+            date('d')
+        ));
+
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
         $advices = array();
         if (is_array($result)) {
@@ -106,28 +136,14 @@ class Advice extends ObjectModel
                     'html' => $res['html'],
                     'id_ps_advice' => $res['id_ps_advice'],
                     'weight' => $res['weight']
-                    );
+                );
             }
         }
-        if (!$premium) {
-            foreach ($advices as $k => $a) {
-                if ($a['selector'] == '#dashtrends') {
-                    unset($advices[$k]);
-                }
-            }
-        }
-        if (!$addons) {
-            foreach ($advices as $k => $a) {
-                if ($a['selector'] == 'addons') {
-                    unset($advices[$k]);
-                }
-            }
-        }
-        
+
         return $advices;
     }
-    
-    public static function getValidatedPremiumByIdTab($id_tab)
+
+    public static function getValidatedPremiumOnlyByIdTab($id_tab)
     {
         $advices = self::getValidatedByIdTab($id_tab, true);
 
@@ -136,11 +152,11 @@ class Advice extends ObjectModel
                 unset($advices[$k]);
             }
         }
-        
+
         return $advices;
     }
-    
-    public static function getAddonsAdviceByIdTab($id_tab)
+
+    public static function getValidatedAddonsOnlyByIdTab($id_tab)
     {
         $advices = self::getValidatedByIdTab($id_tab, false, true);
         foreach ($advices as $k => $a) {
@@ -148,10 +164,10 @@ class Advice extends ObjectModel
                 unset($advices[$k]);
             }
         }
-        
+
         return $advices;
     }
-    
+
     public static function getIdsAdviceToValidate()
     {
         $ids = array();
@@ -166,7 +182,7 @@ class Advice extends ObjectModel
         $query->having('count(*) = SUM(c.`validated`)');
 
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
-        
+
         if (is_array($result)) {
             foreach ($result as $advice) {
                 $ids[] = $advice['id_advice'];
@@ -175,7 +191,7 @@ class Advice extends ObjectModel
 
         return $ids;
     }
-    
+
     public static function getIdsAdviceToUnvalidate()
     {
         $ids = array();
@@ -190,7 +206,7 @@ class Advice extends ObjectModel
         $query->having('count(*) = SUM(c.`validated`)');
 
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
-        
+
         if (is_array($result)) {
             foreach ($result as $advice) {
                 $ids[] = $advice['id_advice'];

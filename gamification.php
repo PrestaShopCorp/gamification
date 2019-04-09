@@ -240,39 +240,12 @@ class gamification extends Module
             return false;
         }
 
-        if (method_exists($this->context->controller, 'addJquery')) {
-
-            //add css for advices
-            $advices = Advice::getValidatedByIdTab($this->context->controller->id, true);
-
-            $css_str = $js_str = '';
-            foreach ($advices as $advice) {
-                $advice_css_path = __DIR__ . '/views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css';
-
-                // 24h cache
-                if (!$this->isFresh($advice_css_path, 86400)) {
-                    $advice_css_content = Tools::file_get_contents(
-                        Tools::getShopProtocol(
-                        ) . 'gamification.prestashop.com/css/advices/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css'
-                    );
-                    file_put_contents($advice_css_path, $advice_css_content);
-                }
-
-                if (filesize($advice_css_path) > 0) {
-                    $this->context->controller->addCss(
-                        $this->_path . 'views/css/advice-' . _PS_VERSION_ . '_' . (int) $advice['id_ps_advice'] . '.css'
-                    );
-                }
-
-                $js_str .= '"' . (int) $advice['id_ps_advice'] . '",';
-            }
-
-            return $css_str.'<script>
-				var ids_ps_advice = new Array('.rtrim($js_str, ',').');
-				var admin_gamification_ajax_url = \''.$this->context->link->getAdminLink('AdminGamification').'\';
-				var current_id_tab = '.(int)$this->context->controller->id.';
-			</script>';
-        }
+        return '<script>
+            var admin_gamification_ajax_url = ' . (string) json_encode(
+            $this->context->link->getAdminLink('AdminGamification')
+            ) . ';
+            var current_id_tab = ' . (int) $this->context->controller->id . ';
+        </script>';
     }
 
     public function renderHeaderNotification()
@@ -333,15 +306,15 @@ class gamification extends Module
 
         if (!$this->isFresh($cache_file, 86400)) {
             if ($this->getData($iso_lang)) {
-                $data = Tools::jsonDecode(Tools::file_get_contents($cache_file));
-                if (!isset($data->signature)) {
+                $data = json_decode(Tools::file_get_contents($cache_file));
+                if (json_last_error() !== JSON_ERROR_NONE || !isset($data->signature)) {
                     return false;
                 }
 
-                $this->processCleanAdvices(array_merge($data->advices, $data->advices_16));
+                $this->processCleanAdvices();
 
                 if (function_exists('openssl_verify') && self::TEST_MODE === false) {
-                    if (!openssl_verify(Tools::jsonencode(array($data->conditions, $data->advices_lang)), base64_decode($data->signature), file_get_contents(__DIR__.'/prestashop.pub'))) {
+                    if (!openssl_verify(json_encode(array($data->conditions, $data->advices_lang)), base64_decode($data->signature), file_get_contents(__DIR__.'/prestashop.pub'))) {
                         return false;
                     }
                 }
@@ -360,7 +333,7 @@ class gamification extends Module
                 }
 
                 if (function_exists('openssl_verify') && self::TEST_MODE === false) {
-                    if (!openssl_verify(Tools::jsonencode(array($data->advices_lang_16)), base64_decode($data->signature_16), file_get_contents(__DIR__.'/prestashop.pub'))) {
+                    if (!openssl_verify(json_encode(array($data->advices_lang_16)), base64_decode($data->signature_16), file_get_contents(__DIR__.'/prestashop.pub'))) {
                         return false;
                     }
                 }
