@@ -53,8 +53,8 @@
 
             </p>
             <ol class="central_intro_list">
-                <li>{l s="Your use of key e-commerce features on your store " mod='gamification'}</li>
-                <li>{l s="Your sales performances " mod='gamification'}</li>
+                <li>{l s="Your use of key e-commerce features on your store" mod='gamification'}</li>
+                <li>{l s="Your sales performances" mod='gamification'}</li>
                 <li>{l s="Your presence in international markets" mod='gamification'}</li>
             </ol>
             <p>{l s="The more progress your store makes, the more badges and points you earn. Take advantage and check it out below!" mod='gamification'}</p>
