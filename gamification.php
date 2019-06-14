@@ -213,13 +213,11 @@ class gamification extends Module
         }
 
         if (method_exists($this->context->controller, 'addJquery')) {
-            $cssFile = 'gamification.css';
+            $this->context->controller->addCss($this->_path . 'views/css/gamification.css');
             if (version_compare(_PS_VERSION_, '1.7.0.0', '<=')) {
-                $cssFile = 'gamification-1.6.css';
+                $this->context->controller->addCss($this->_path . 'views/css/gamification-1.6.css');
                 $this->context->controller->addJquery();
             }
-
-            $this->context->controller->addCss($this->_path . 'views/css/' . $cssFile);
 
             $this->context->controller->addJs($this->_path . 'views/js/gamification_bt.js');
 

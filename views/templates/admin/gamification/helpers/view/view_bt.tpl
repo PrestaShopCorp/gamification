@@ -70,9 +70,9 @@
         <h2>{l s='Completion level' mod='gamification'}</h2>
         <div id="gamification_progressbar_tab"></div>
         <p class="gamification_progress-label">{l
-            s="Level %current%:"
+            s="Level %s:"
             sprintf=[
-                '%current%' => $current_level|intval
+                $current_level|intval
             ]
             mod='gamification'
         }

@@ -90,7 +90,7 @@
 			</div>
 
 			<footer class="panel-footer">
-				<a href="{$link->getAdminLink('AdminGamification')}">{l s='View my complete profile' mod='gamification'} <i class="material-icons">chevron_right</i></a>
+				<a href="{$link->getAdminLink('AdminGamification')}">{l s='View my complete profile' mod='gamification'} <i class="icon-chevron-right icon-fw"></i><i class="material-icons">chevron_right</i></a>
 			</footer>
 		</section>
 	</div>
