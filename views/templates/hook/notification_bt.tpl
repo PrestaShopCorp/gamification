@@ -50,10 +50,10 @@
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" id="gamification_tab">
 				<li class="nav-item active">
-					<a class="nav-link" href="#home" data-toggle="tab" data-target="gamification_1" onclick="gamificationDisplayTab(this); return false;">{l s='Last badge :' mod='gamification'}</a>
+					<a class="nav-link" href="#home" data-toggle="tab" data-target="gamification_1" onclick="gamificationDisplayTab(this); return false;">{l s='Last badge:' mod='gamification'}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#profile" data-toggle="tab" data-target="gamification_2" onclick="gamificationDisplayTab(this); return false;">{l s='Next badge :' mod='gamification'}</a>
+					<a class="nav-link" href="#profile" data-toggle="tab" data-target="gamification_2" onclick="gamificationDisplayTab(this); return false;">{l s='Next badge:' mod='gamification'}</a>
 				</li>
 			</ul>
 
@@ -65,7 +65,7 @@
 						{if $badge->id}
 							<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
 								<span class="{if $badge->validated} unlocked_img {else} locked_img {/if}" {if $badge->validated}style="left: 12px;"{/if}></span>
-								<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge :' mod='gamification'} {else} {l s='Next badge :' mod='gamification'} {/if}</span></div>
+								<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge:' mod='gamification'} {else} {l s='Next badge:' mod='gamification'} {/if}</span></div>
 								<div class="gamification_badges_img" data-placement="{if $i <= 1}bottom{else}top{/if}" data-original-title="{$badge->description|escape:html:'UTF-8'}"><img src="{$badge->getBadgeImgUrl()}"></div>
 								<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
 							</li>
@@ -79,7 +79,7 @@
 						{if $badge->id && !$badge->awb}
 							<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
 								<span class="{if $badge->validated} unlocked_img {else} locked_img {/if}" {if $badge->validated}style="left: 12px;"{/if}></span>
-								<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge :' mod='gamification'} {else} {l s='Next badge :' mod='gamification'} {/if}</span></div>
+								<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge:' mod='gamification'} {else} {l s='Next badge:' mod='gamification'} {/if}</span></div>
 								<div class="gamification_badges_img" data-placement="{if $i <= 1}bottom{else}top{/if}"data-toggle="tooltip" data-original-title="{$badge->description|escape:html:'UTF-8'}"><img src="{$badge->getBadgeImgUrl()}"></div>
 								<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
 							</li>
