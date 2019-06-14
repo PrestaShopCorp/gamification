@@ -55,11 +55,11 @@
             </p>
         </div>
         <div id="right_intro">
-            <h4>{l s="Our team is available to help. Contact us today!" mod='gamification'}</h4><br/>
+            <h4>{l s="Our team of experts is available to help, feel free to contact them!" mod='gamification'}</h4><br/>
             <ul>
                 <li>
                     <img src="../modules/gamification/views/img/mail_icon.png" alt="{l s="Email" mod='gamification' mod='gamification'}" />
-                    <a href="http://www.prestashop.com/en/contact-us?utm_source=gamification">{l s="Fill out the form" mod='gamification'}</a>
+                    <a href="https://www.prestashop.com/en/experts?utm_source=gamification">{l s="Find an expert" mod='gamification'}</a>
                 </li>
             </ul>
         </div>

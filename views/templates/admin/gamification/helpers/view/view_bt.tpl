@@ -61,8 +61,8 @@
         </div>
         <div class="right_intro">
             <img src="{$base_url}modules/gamification/views/img/persona.png" alt="{l s="Employee" mod='gamification'}">
-            <h3 class="text-center right_intro_title">{l s="Our team is available to help, contact us today!" mod='gamification'}</h3>
-                <a class="text-center right_intro_btn-contact" href="http://www.prestashop.com/en/contact-us?utm_source=gamification">{l s="Fill out a contact form" mod='gamification'}</a>
+            <h3 class="text-center right_intro_title">{l s="Our team of experts is available to help, feel free to contact them!" mod='gamification'}</h3>
+            <a class="text-center right_intro_btn-contact" href="https://www.prestashop.com/en/experts?utm_source=gamification">{l s="Find an expert" mod='gamification'}</a>
         </div>
     </div>
 
