@@ -1,14 +1,5 @@
 language: php
 
-addons:
-  apt:
-    packages:
-      - apache2
-      - postfix
-      - libapache2-mod-fastcgi
-      - libappindicator1
-      - fonts-liberation
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -24,28 +15,13 @@ php:
 env:
   global:
     - SYMFONY_DEPRECATIONS_HELPER=disabled
-    - SYMFONY_PHPUNIT_VERSION=5.7
-    - MODULE_DIR=/tmp/gamification
-    - MODULE_SCRIPTS_DIR=/tmp/gamification/tools
-
-  matrix:
-    - PS_VERSION=1.7.4.x
-    - PS_VERSION=1.7.5.x
+    - SYMFONY_PHPUNIT_VERSION=5.7.27
 
   allow_failures:
     - php: 7.2
 
-  fast_finish: true
-
-before_script:
-  - ./tools/move_module.sh
-  - $MODULE_SCRIPTS_DIR/get_prestashop.sh
-  - $MODULE_SCRIPTS_DIR/install_webserver.sh
-  - $MODULE_SCRIPTS_DIR/start_prestashop.sh
-  - $MODULE_SCRIPTS_DIR/install_module.sh gamification
-
 script:
-  - cd $TRAVIS_BUILD_DIR/modules/gamification
+  - composer install
   - composer cs-fix-test
   - composer test
 

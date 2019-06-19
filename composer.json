@@ -21,6 +21,9 @@
     "symfony/debug": "^3.4"
   },
   "config": {
+    "platform": {
+      "php": "5.6.0"
+    },
     "preferred-install": "dist"
   },
   "scripts": {

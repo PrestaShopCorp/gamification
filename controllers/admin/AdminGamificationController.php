@@ -23,6 +23,8 @@ class AdminGamificationController extends ModuleAdminController
 
     public function setMedia($isNewTheme = false)
     {
+        parent::setMedia($isNewTheme);
+
         $this->addJqueryUI('ui.progressbar');
         $this->addJS(_MODULE_DIR_.$this->module->name.'/views/js/bubble-popup.js');
 
@@ -34,8 +36,6 @@ class AdminGamificationController extends ModuleAdminController
 
         $this->addJs(_MODULE_DIR_.$this->module->name.'/views/js/jquery.isotope.js');
         $this->addCSS(array(_MODULE_DIR_.$this->module->name.'/views/css/bubble-popup.css', _MODULE_DIR_.$this->module->name.'/views/css/isotope.css'));
-
-        return parent::setMedia($isNewTheme);
     }
 
     public function initToolBarTitle()
