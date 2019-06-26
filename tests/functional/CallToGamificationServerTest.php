@@ -6,9 +6,9 @@ class CallToGamificationServerTest extends TestCase
 {
     public function testContentIsGzipped()
     {
-        $workingCallUrl = "https://gamification.prestashop.com/json/data_EN_IDR_ID.json";
+        $workingCallUrl = 'https://gamification.prestashop.com/json/data_EN_IDR_ID.json';
 
         $response = GamificationTools::retrieveJsonApiFile($workingCallUrl, true);
-        self::assertContains('Content-Encoding: gzip', $response);
+        $this->assertContains('Content-Encoding: gzip', $response);
     }
 }

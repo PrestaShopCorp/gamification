@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 class AdviceTest extends TestCase
 {
     /**
-     * @var array the list of expected properties of Advice model.
+     * @var array the list of expected properties of Advice model
      */
     const ADVICE_PROPERTIES = [
         'table',
@@ -15,7 +15,7 @@ class AdviceTest extends TestCase
     ];
 
     /**
-     * @var array the list of fields of Advice model.
+     * @var array the list of fields of Advice model
      */
     const ADVICE_FIELDS = [
         'id_ps_advice',
@@ -30,11 +30,11 @@ class AdviceTest extends TestCase
     ];
 
     /**
-     * @var array the Advice.
+     * @var array the Advice
      */
     private $advice;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->advice = new Advice();
     }
@@ -43,16 +43,16 @@ class AdviceTest extends TestCase
     {
         $definition = Advice::$definition;
 
-        self::assertInternalType('array', $definition);
+        $this->assertInternalType('array', $definition);
 
         foreach (self::ADVICE_PROPERTIES as $property) {
-            self::assertArrayHasKey($property, $definition);
+            $this->assertArrayHasKey($property, $definition);
         }
 
         $fieldsProperty = $definition['fields'];
 
         foreach (self::ADVICE_FIELDS as $field) {
-            self::assertArrayHasKey($field, $fieldsProperty);
+            $this->assertArrayHasKey($field, $fieldsProperty);
         }
     }
 }

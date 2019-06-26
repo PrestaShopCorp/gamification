@@ -213,7 +213,6 @@ class Condition extends ObjectModel
             $ids[] = $r['id_condition'];
         }
         
-
         return array_unique($ids);
     }
     
@@ -349,6 +348,7 @@ class Condition extends ObjectModel
                 break;
             break;
         }
+
         return (bool)$result;
     }
 }
