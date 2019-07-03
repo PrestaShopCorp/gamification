@@ -1,5 +1,7 @@
 $(document).ready( function () {
-  gamificationTasks();
+  if (typeof admin_gamification_ajax_url !== 'undefined') {
+    gamificationTasks();
+  }
 });
 
 function gamificationTasks()
