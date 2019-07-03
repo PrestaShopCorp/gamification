@@ -104,12 +104,12 @@ function initHeaderNotification(html)
       {
         $('#gamification_progressbar').progressbar({
           change: function() {
-                if (current_level_percent)
-                  $( ".gamification_progress-label" ).html( gamification_level+' '+current_level+' : '+$('#gamification_progressbar').progressbar( "value" ) + "%" );
-                else
-                  $( ".gamification_progress-label" ).html('');
-              },
-          });
+            if (current_level_percent)
+              $( ".gamification_progress-label" ).html( gamification_level+' '+current_level+' : '+$('#gamification_progressbar').progressbar( "value" ) + "%" );
+            else
+              $( ".gamification_progress-label" ).html('');
+          },
+        });
         $('#gamification_progressbar').progressbar("value", current_level_percent );
       }
     }
@@ -124,22 +124,22 @@ function initHeaderNotification(html)
 
 function gamificationInsertOnBackOfficeDOM(html)
 {
-    $('#gamification_notif').remove();
-    // Before PrestaShop 1.7
-    if (0 < $('#header_notifs_icon_wrapper').length) {
-        $('#header_notifs_icon_wrapper').append(html);
-    } else if (0 < $('#notification').length) {
-        // PrestaShop 1.7 - Default theme
-        $(html).insertAfter('#notification');
-    } else if (0 < $('.notification-center').length) {
-        // PrestaShop 1.7 - New theme
-        $('.gamification-component').remove();
-        html = '<div class="component pull-md-right gamification-component"><ul>'+html+'</ul></div>';
+  $('#gamification_notif').remove();
+  // Before PrestaShop 1.7
+  if (0 < $('#header_notifs_icon_wrapper').length) {
+    $('#header_notifs_icon_wrapper').append(html);
+  } else if (0 < $('#notification').length) {
+    // PrestaShop 1.7 - Default theme
+    $(html).insertAfter('#notification');
+  } else if (0 < $('.notification-center').length) {
+    // PrestaShop 1.7 - New theme
+    $('.gamification-component').remove();
+    html = '<div class="component pull-md-right gamification-component"><ul>'+html+'</ul></div>';
 
-        $(html).insertAfter($('.notification-center').closest('.component'));
-    } else {
-        console.error('Could not find proper place to add the gamification notification center. x_x');
-    }
+    $(html).insertAfter($('.notification-center').closest('.component'));
+  } else {
+    console.error('Could not find proper place to add the gamification notification center. x_x');
+  }
 }
 
 function disabledGamificationNotification()
