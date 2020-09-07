@@ -44,7 +44,7 @@
 <div class="panel">
     <div id="intro_gamification">
         <div class="left_intro">
-            <img src="{$base_url}modules/gamification/views/img/checklist.png" alt="{l s='Email' mod='gamification'}" />
+            <img src="../modules/gamification/views/img/checklist.png" alt="{l s='Email' mod='gamification'}" />
         </div>
         <div class="central_intro">
             <h2>{l s="Become an e-commerce expert in leaps and bounds!" mod='gamification'}</h2>
@@ -60,7 +60,7 @@
             <p>{l s="The more progress your store makes, the more badges and points you earn. Take advantage and check it out below!" mod='gamification'}</p>
         </div>
         <div class="right_intro">
-            <img src="{$base_url}modules/gamification/views/img/persona.png" alt="{l s="Employee" mod='gamification'}">
+            <img src="../modules/gamification/views/img/persona.png" alt="{l s="Employee" mod='gamification'}">
             <h3 class="text-center right_intro_title">{l s="Our team of experts is available to help, feel free to contact them!" mod='gamification'}</h3>
             <a class="text-center right_intro_btn-contact" href="https://www.prestashop.com/en/experts?utm_source=gamification">{l s="Find an expert" mod='gamification'}</a>
         </div>
