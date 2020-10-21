@@ -48,7 +48,7 @@ class Badge extends ObjectModel
 
     public $awb;
     
-    const BAGDE_IMG_URL = '../modules/gamification/views/img/badges/';
+    const BAGDE_IMG_URL = _MODULE_DIR_ . 'gamification/views/img/badges/';
     
     /**
      * @see ObjectModel::$definition
