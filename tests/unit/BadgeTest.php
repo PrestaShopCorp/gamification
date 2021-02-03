@@ -14,7 +14,7 @@ class BadgeTest extends TestCase
         $this->badge = new Badge();
     }
 
-    public function testImgUrl(): void
+    public function testImgUrl()
     {
         $this->assertStringStartsWith(__PS_BASE_URI__, $this->badge->getBadgeImgUrl());
     }
