@@ -135,7 +135,7 @@ class gamification extends Module
                     'SELECT MIN(id_tab)
                         FROM `'._DB_PREFIX_.'tab`
                         WHERE `class_name` = "'.pSQL('ShopParameters').'"'
-                    );
+                );
         } else {
             // AdminAdmin
             $tab->id_parent = (int)Tab::getIdFromClassName('AdminAdmin');
@@ -241,7 +241,7 @@ class gamification extends Module
         return '<script>
             var admin_gamification_ajax_url = ' . (string) json_encode(
             $this->context->link->getAdminLink('AdminGamification')
-            ) . ';
+        ) . ';
             var current_id_tab = ' . (int) $this->context->controller->id . ';
         </script>';
     }
