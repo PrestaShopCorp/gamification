@@ -28,7 +28,7 @@
   },
   "scripts": {
     "cs-fix": "@php ./vendor/bin/php-cs-fixer fix .",
-    "cs-fix-test": "@php ./vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --show-progress=dot .",
+    "cs-fix-test": "@php ./vendor/bin/php-cs-fixer fix --diff --dry-run --stop-on-violation --show-progress=dot .",
     "test": "SYMFONY_PHPUNIT_VERSION=5.7 php ./vendor/bin/simple-phpunit"
   },
   "type": "prestashop-module"
