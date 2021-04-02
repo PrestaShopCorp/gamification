@@ -17,7 +17,7 @@
     "prestashop/php-dev-tools": "^3.4",
     "phpunit/phpunit": "~5.7",
     "mockery/mockery": "^1.2",
-    "symfony/phpunit-bridge": "^3.4",
+    "symfony/phpunit-bridge": "^5.2",
     "symfony/debug": "^3.4"
   },
   "config": {
