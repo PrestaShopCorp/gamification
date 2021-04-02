@@ -28,12 +28,12 @@ class GamificationTools
 {
     public static function parseMetaData($content)
     {
-        $meta_data = array(
+        $meta_data = [
             'PREFIX_' => _DB_PREFIX_,
-            );
+            ];
         //replace define
         $content = str_replace(array_keys($meta_data), array_values($meta_data), $content);
-        
+
         //replace meta data
         $content = preg_replace_callback('#\{config\}([a-zA-Z0-9_-]*)\{/config\}#', function ($matches) {
             return Configuration::get($matches[1]);
@@ -50,7 +50,7 @@ class GamificationTools
         $content = preg_replace_callback('#\{country\}(.*)\{/country\}#', function ($matches) {
             return Context::getContext()->country->$matches[1];
         }, $content);
-        
+
         return $content;
     }
 

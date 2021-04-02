@@ -48,22 +48,25 @@ function removeGamificationPhpUnitFromFsDuringUpgrade(array $files)
             return 'Deletion of file ' . $file . 'failed';
         }
     }
+
     return true;
 }
 /**
  * This upgrade file removes the folder vendor/phpunit, when added from a previous release installed on the shop.
  *
- * @return true|array
+ * @return bool
  */
 function upgrade_module_2_3_2($module)
 {
     $path = __DIR__ . '/../vendor/phpunit';
     if (file_exists($path)) {
-        $result = removeGamificationPhpUnitFromFsDuringUpgrade(array($path));
+        $result = removeGamificationPhpUnitFromFsDuringUpgrade([$path]);
         if ($result !== true) {
             PrestaShopLogger::addLog('Could not delete PHPUnit from module. ' . $result, 3);
+
             return false;
         }
     }
+
     return true;
 }
