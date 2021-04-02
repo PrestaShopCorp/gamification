@@ -58,6 +58,7 @@ class gamification extends Module
         $this->description = $this->trans('Check your completion rate and unblock all badges to become an e-commerce expert within the blink of an eye!', [], 'Modules.Merchantexpertise.Admin');
 
         $this->cache_data = __DIR__ . '/data/';
+        // @phpstan-ignore-next-line
         if (self::TEST_MODE === true) {
             $this->url_data .= 'test/';
         }
@@ -100,7 +101,7 @@ class gamification extends Module
     public function installDb()
     {
         $return = true;
-        include __DIR__ . '/sql_install.php';
+        $sql = include __DIR__ . '/sql_install.php';
         foreach ($sql as $s) {
             $return &= Db::getInstance()->execute($s);
         }
@@ -110,7 +111,7 @@ class gamification extends Module
 
     public function uninstallDb()
     {
-        include __DIR__ . '/sql_install.php';
+        $sql = include __DIR__ . '/sql_install.php';
         foreach ($sql as $name => $v) {
             Db::getInstance()->execute('DROP TABLE ' . $name);
         }
@@ -121,7 +122,7 @@ class gamification extends Module
     public function installTab()
     {
         $tab = new Tab();
-        $tab->active = 1;
+        $tab->active = true;
         $tab->class_name = 'AdminGamification';
         $tab->name = [];
         foreach (Language::getLanguages(true) as $lang) {
@@ -130,7 +131,7 @@ class gamification extends Module
 
         if (version_compare(_PS_VERSION_, '1.7.0.0', '>=')) {
             //AdminPreferences
-            $tab->id_parent = (int) Db::getInstance(_PS_USE_SQL_SLAVE_)
+            $tab->id_parent = (int) Db::getInstance((bool) _PS_USE_SQL_SLAVE_)
                 ->getValue(
                     'SELECT MIN(id_tab)
                         FROM `' . _DB_PREFIX_ . 'tab`
@@ -256,7 +257,7 @@ class gamification extends Module
         $badges_to_display = []; //retro compat
         $unlock_badges = [];
         $next_badges = [];
-        $not_viewed_badge = explode('|', Configuration::get('GF_NOT_VIEWED_BADGE', ''));
+        $not_viewed_badge = explode('|', Configuration::get('GF_NOT_VIEWED_BADGE'));
         foreach ($not_viewed_badge as $id) {
             $unlock_badges[] = $badges_to_display[] = new Badge((int) $id, (int) $this->context->language->id);
             $next_badges[] = $badges_to_display[] = new Badge(end($badges_to_display)->getNextBadgeId(), (int) $this->context->language->id);
@@ -308,33 +309,49 @@ class gamification extends Module
 
                 $this->processCleanAdvices();
 
-                if (function_exists('openssl_verify') && self::TEST_MODE === false) {
-                    if (!openssl_verify(json_encode([$data->conditions, $data->advices_lang]), base64_decode($data->signature), file_get_contents(__DIR__ . '/prestashop.pub'))) {
+                $public_key = file_get_contents(__DIR__ . '/prestashop.pub');
+                $signature = isset($data->signature) ? base64_decode($data->signature) : '';
+
+                if (isset($data->conditions)) {
+                    if (
+                        function_exists('openssl_verify')
+                        && self::TEST_MODE === false
+                        && isset($data->advices_lang)
+                        && !openssl_verify(json_encode([$data->conditions, $data->advices_lang]), $signature, $public_key)
+                        ) {
                         return false;
                     }
-                }
-                if (isset($data->conditions)) {
                     $this->processImportConditions($data->conditions, $id_lang);
                 }
 
-                if ((isset($data->badges) && isset($data->badges_lang)) && (!isset($data->badges_only_visible_awb) && !isset($data->badges_only_visible_lang_awb))) {
-                    $this->processImportBadges($data->badges, $data->badges_lang, $id_lang);
-                } else {
-                    $this->processImportBadges(array_merge($data->badges_only_visible_awb, $data->badges), array_merge($data->badges_only_visible_lang_awb, $data->badges_lang), $id_lang);
+                if (isset($data->badges) && isset($data->badges_lang)) {
+                    if (!isset($data->badges_only_visible_awb) && !isset($data->badges_only_visible_lang_awb)) {
+                        $this->processImportBadges($data->badges, $data->badges_lang, $id_lang);
+                    } else {
+                        $this->processImportBadges(
+                            array_merge($data->badges_only_visible_awb, $data->badges),
+                            array_merge($data->badges_only_visible_lang_awb, $data->badges_lang),
+                            $id_lang
+                        );
+                    }
                 }
 
                 if (isset($data->advices) && isset($data->advices_lang)) {
                     $this->processImportAdvices($data->advices, $data->advices_lang, $id_lang);
                 }
 
-                if (function_exists('openssl_verify') && self::TEST_MODE === false) {
-                    if (!openssl_verify(json_encode([$data->advices_lang_16]), base64_decode($data->signature_16), file_get_contents(__DIR__ . '/prestashop.pub'))) {
+                if (isset($data->advices_lang_16)) {
+                    if (
+                        function_exists('openssl_verify')
+                        && self::TEST_MODE === false
+                        && !openssl_verify(json_encode([$data->advices_lang_16]), $signature, $public_key)
+                    ) {
                         return false;
                     }
-                }
 
-                if (version_compare(_PS_VERSION_, '1.6.0', '>=') === true && isset($data->advices_16) && isset($data->advices_lang_16)) {
-                    $this->processImportAdvices($data->advices_16, $data->advices_lang_16, $id_lang);
+                    if (version_compare(_PS_VERSION_, '1.6.0', '>=') === true && isset($data->advices_16)) {
+                        $this->processImportAdvices($data->advices_16, $data->advices_lang_16, $id_lang);
+                    }
                 }
             }
         }

@@ -109,7 +109,7 @@ class Badge extends ObjectModel
         $query->groupBy('b.`id_badge`');
         $query->having('count(*) = SUM(c.validated)');
 
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
+        $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($query);
 
         foreach ($result as $badge) {
             $ids[] = $badge['id_badge'];
@@ -126,6 +126,6 @@ class Badge extends ObjectModel
         $query->where('b.id_group = \'' . pSQL($this->id_group) . '\' AND b.validated = 0');
         $query->orderBy('b.group_position');
 
-        return Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($query);
+        return Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->getValue($query);
     }
 }

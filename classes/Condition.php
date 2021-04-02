@@ -346,7 +346,6 @@ class Condition extends ObjectModel
             case '!=':
                 $result = $arg1 != $arg2;
                 break;
-            break;
         }
 
         return (bool) $result;

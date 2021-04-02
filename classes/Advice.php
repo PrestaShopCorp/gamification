@@ -127,7 +127,7 @@ class Advice extends ObjectModel
             date('d')
         ));
 
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
+        $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($query);
         $advices = [];
         if (is_array($result)) {
             foreach ($result as $res) {
@@ -182,7 +182,7 @@ class Advice extends ObjectModel
         $query->groupBy('a.`id_advice`');
         $query->having('count(*) = SUM(c.`validated`)');
 
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
+        $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($query);
 
         if (is_array($result)) {
             foreach ($result as $advice) {
@@ -206,7 +206,7 @@ class Advice extends ObjectModel
         $query->groupBy('a.`id_advice`');
         $query->having('count(*) = SUM(c.`validated`)');
 
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
+        $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($query);
 
         if (is_array($result)) {
             foreach ($result as $advice) {

@@ -74,7 +74,7 @@ class AdminGamificationController extends ModuleAdminController
         $query->join('
 			LEFT JOIN `' . _DB_PREFIX_ . 'badge_lang` bl ON bl.`id_badge` = b.`id_badge`');
         $query->where('bl.id_lang = ' . (int) $this->context->language->id);
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
+        $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($query);
 
         foreach ($result as $res) {
             $groups['badges_' . $res['type']][$res['id_group']] = $res['group_name'];
@@ -205,8 +205,8 @@ class AdminGamificationController extends ModuleAdminController
         $return = true;
         $condition_ids = Condition::getIdsDailyCalculation();
         foreach ($condition_ids as $id) {
-            $cond = new Condition((int) $id);
-            $return &= $cond->processCalculation();
+            $condition = new Condition((int) $id);
+            $return &= $condition->processCalculation();
         }
 
         return $return;
@@ -239,8 +239,8 @@ class AdminGamificationController extends ModuleAdminController
         $current_level = (int) Configuration::get('GF_CURRENT_LEVEL');
         $current_level_percent = (int) Configuration::get('GF_CURRENT_LEVEL_PERCENT');
 
-        $not_viewed_badge = explode('|', ltrim(Configuration::get('GF_NOT_VIEWED_BADGE', ''), ''));
-        $nbr_notif = Configuration::get('GF_NOTIFICATION', 0);
+        $not_viewed_badge = explode('|', ltrim(Configuration::get('GF_NOT_VIEWED_BADGE', null, null, null, ''), ''));
+        $nbr_notif = Configuration::get('GF_NOTIFICATION', null, null, null, 0);
 
         if (count($ids_badge)) {
             $not_viewed_badge = [];
