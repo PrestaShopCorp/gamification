@@ -54,8 +54,8 @@ class gamification extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->trans('Merchant Expertise', [], 'Modules.Merchantexpertise.Admin');
-        $this->description = $this->trans('Check your completion rate and unblock all badges to become an e-commerce expert within the blink of an eye!', [], 'Modules.Merchantexpertise.Admin');
+        $this->displayName = $this->l('Merchant Expertise');
+        $this->description = $this->l('Become an e-commerce expert within the blink of an eye!');
 
         $this->cache_data = __DIR__ . '/data/';
         // @phpstan-ignore-next-line
