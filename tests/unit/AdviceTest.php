@@ -30,7 +30,7 @@ class AdviceTest extends TestCase
     ];
 
     /**
-     * @var array the Advice
+     * @var Advice
      */
     private $advice;
 

@@ -34,13 +34,13 @@ if (!defined('_PS_VERSION_')) {
  *
  * @return true|string True if everything goes fine, error details otherwise
  */
-function removeFromFsDuringUpgrade(array $files)
+function removeGamificationPhpUnitFromFsDuringUpgrade(array $files)
 {
     $files = array_reverse($files);
     foreach ($files as $file) {
         if (is_dir($file)) {
             $iterator = new FilesystemIterator($file, FilesystemIterator::CURRENT_AS_PATHNAME | FilesystemIterator::SKIP_DOTS);
-            removeFromFsDuringUpgrade(iterator_to_array($iterator));
+            removeGamificationPhpUnitFromFsDuringUpgrade(iterator_to_array($iterator));
             if (!rmdir($file) && file_exists($file)) {
                 return 'Deletion of directory ' . $file . 'failed';
             }
@@ -48,22 +48,25 @@ function removeFromFsDuringUpgrade(array $files)
             return 'Deletion of file ' . $file . 'failed';
         }
     }
+
     return true;
 }
 /**
  * This upgrade file removes the folder vendor/phpunit, when added from a previous release installed on the shop.
  *
- * @return true|array
+ * @return bool
  */
 function upgrade_module_2_3_2($module)
 {
     $path = __DIR__ . '/../vendor/phpunit';
     if (file_exists($path)) {
-        $result = removeFromFsDuringUpgrade(array($path));
+        $result = removeGamificationPhpUnitFromFsDuringUpgrade([$path]);
         if ($result !== true) {
             PrestaShopLogger::addLog('Could not delete PHPUnit from module. ' . $result, 3);
+
             return false;
         }
     }
+
     return true;
 }

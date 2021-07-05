@@ -75,7 +75,7 @@
 
 {foreach from=$badges_type key=key item=type}
 <fieldset>
-    <legend><img src="../modules/gamification/views/img/{$key}.png" alt="{$type.name|escape:html:'UTF-8'}" /> {$type.name|escape:html:'UTF-8'}</legend>
+    <legend><img src="../modules/gamification/views/img/{$key}.png" alt="{$type.name|escape:html:'UTF-8'}" loading="lazy" /> {$type.name|escape:html:'UTF-8'}</legend>
     {include file='./filters.tpl' type=$key}
     <ul class="badge_list" id="list_{$key}" style="">
         {foreach from=$type.badges item=badge}

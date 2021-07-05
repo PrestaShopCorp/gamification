@@ -2,7 +2,7 @@
 
 ## About
 
-Become an e-commerce expert within the blink of an eye! This module displays tips in your Back Office to help you make the best out of your shop.
+Check your completion rate and unblock all badges to become an e-commerce expert within the blink of an eye!
 
 ### Execute the test suite
 

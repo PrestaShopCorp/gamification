@@ -28,7 +28,7 @@
 					<li class="{if $badge->validated} unlocked {else} locked {/if}" style="float:left;">
 						<span class="{if $badge->validated} unlocked_img {else} locked_img {/if}"></span>
 						<div class="gamification_badges_title"><span>{if $badge->validated} {l s='Last badge:' mod='gamification'} {else} {l s='Next badge:' mod='gamification'} {/if}</span></div>
-						<div class="gamification_badges_img"><img src="{$badge->getBadgeImgUrl()}"></div>
+						<div class="gamification_badges_img"><img src="{$badge->getBadgeImgUrl()}" loading="lazy"></div>
 						<div class="gamification_badges_name">{$badge->name|escape:html:'UTF-8'}</div>
 					</li>
 				{else}
