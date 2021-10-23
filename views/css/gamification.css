@@ -573,3 +573,14 @@ li.not_validated {
 #gamification_notif .icon-chevron-right {
   display: none;
 }
+
+/* RTL Fix */
+.lang-rtl #gamification_notif .dropdown-menu,
+.lang-rtl #header_infos #gamification_notif .dropdown-menu {
+  transform: translate3d(324px, 20px, 0px) !important;
+}
+.lang-rtl #gamification_notif .dropdown-menu:before,
+.lang-rtl #gamification_notif .dropdown-menu:after {
+  left: 9px;
+  right: auto !important;
+}
