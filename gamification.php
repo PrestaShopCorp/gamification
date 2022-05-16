@@ -595,7 +595,7 @@ class gamification extends Module
     public function hookDisplayAdminAfterHeader()
     {
         // PrestaShop Paylater with PayPlug & Oney is available only from PrestaShop 1.7
-        if (version_compare(_PS_VERSION_, '1.7.0.0', '<=')) {
+        if (version_compare(_PS_VERSION_, '1.7.0.0', '<')) {
             return '';
         }
 
@@ -624,10 +624,6 @@ class gamification extends Module
     private function getShopCountryCode()
     {
         $defaultCountry = '';
-
-        if (Configuration::hasKey('PS_LOCALE_COUNTRY')) {
-            $defaultCountry = Configuration::get('PS_LOCALE_COUNTRY');
-        }
 
         if (empty($defaultCountry) && Configuration::hasKey('PS_COUNTRY_DEFAULT')) {
             $defaultCountry = (new Country((int) Configuration::get('PS_COUNTRY_DEFAULT')))->iso_code;
