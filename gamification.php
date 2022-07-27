@@ -161,12 +161,39 @@ class gamification extends Module
 
     public function enable($force_all = false)
     {
-        return parent::enable($force_all) && Tab::enablingForModule($this->name);
+        $enabled = parent::enable($force_all);
+
+        if ($enabled) {
+            $tabCollection = Tab::getCollectionFromModule($this->name);
+
+            if ($tabCollection->count()) {
+                try {
+                    Tab::enablingForModule($this->name);
+                } catch (PrestaShopException $exception) {
+                    $this->uninstallTab();
+                    $this->installTab();
+                }
+            } else {
+                $this->installTab();
+            }
+        }
+
+        return $enabled;
     }
 
     public function disable($force_all = false)
     {
-        return parent::disable($force_all) && Tab::disablingForModule($this->name);
+        $disabled = parent::disable($force_all);
+
+        if ($disabled) {
+            try {
+                Tab::disablingForModule($this->name);
+            } catch (PrestaShopException $exception) {
+                $this->uninstallTab();
+            }
+        }
+
+        return $disabled;
     }
 
     public function getContent()
