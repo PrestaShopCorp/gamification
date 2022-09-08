@@ -6,7 +6,6 @@ $(document).ready( function () {
 
 function gamificationTasks()
 {
-  gamificationInsertOnBackOfficeDOM('<div id="gamification_notif" class="notifs"></div>');
   $.ajax({
     type: 'POST',
     url: admin_gamification_ajax_url,
@@ -73,8 +72,6 @@ function gamificationTasks()
         });
       }
 
-      initHeaderNotification(jsonData.header_notification);
-
       var fancybox = $('.gamification_fancybox');
       if (fancybox.fancybox) {
         fancybox.fancybox();
@@ -85,104 +82,9 @@ function gamificationTasks()
         preactivationLinkClick($(this).attr('rel'), $(this).attr('href'));
       });
 
-      $('.gamification_badges_img').tooltip();
     }
   });
 }
-
-function initHeaderNotification(html)
-{
-  gamificationInsertOnBackOfficeDOM(html);
-  $('.gamification_notif').click(function () {
-    if ($('#gamification_notif_wrapper').parent().css('display') == 'none')
-    {
-      disabledGamificationNotification();
-      $('#gamification_notif_value').html(0);
-      $('#gamification_notif_number_wrapper').hide();
-
-      if (typeof(admintab_gamification) != "undefined")
-      {
-        $('#gamification_progressbar').progressbar({
-          change: function() {
-            if (current_level_percent)
-              $( ".gamification_progress-label" ).html( gamification_level+' '+current_level+' : '+$('#gamification_progressbar').progressbar( "value" ) + "%" );
-            else
-              $( ".gamification_progress-label" ).html('');
-          },
-        });
-        $('#gamification_progressbar').progressbar("value", current_level_percent );
-      }
-    }
-  });
-
-  if (parseInt($('#gamification_notif_value').html()) == 0)
-    $('#gamification_notif_number_wrapper').hide();
-
-  if ($('.dropdown-toggle').length)
-    $('.dropdown-toggle').dropdown();
-}
-
-function gamificationInsertOnBackOfficeDOM(html)
-{
-  $('#gamification_notif').remove();
-  // Before PrestaShop 1.7
-  if (0 < $('#header_notifs_icon_wrapper').length) {
-    $('#header_notifs_icon_wrapper').append(html);
-  } else if (0 < $('#notification').length) {
-    // PrestaShop 1.7 - Default theme
-    $(html).insertAfter('#notification');
-  } else if (0 < $('.notification-center').length) {
-    // PrestaShop 1.7 - New theme
-    $('.gamification-component').remove();
-    html = '<div class="component pull-md-right gamification-component"><ul>'+html+'</ul></div>';
-
-    $(html).insertAfter($('.notification-center').closest('.component'));
-  } else {
-    console.error('Could not find proper place to add the gamification notification center. x_x');
-  }
-}
-
-function disabledGamificationNotification()
-{
-  $.ajax({
-    type: 'POST',
-    url: admin_gamification_ajax_url,
-    data: {
-      controller : 'AdminGamification',
-      action : 'disableNotification',
-      ajax : true
-    },
-    success: function(jsonData)
-    {
-      $('#gamification_notif_value').html(0);
-      $('#gamification_notif_number_wrapper').hide();
-    }
-  });
-}
-
-
-
-function filterBadge(type)
-{
-  group = '.'+$('#group_select_'+type+' option:selected').val();
-  status = '.'+$('#status_select_'+type+' option:selected').val();
-  level = '.'+$('#level_select_'+type+' option:selected').val();
-
-  if (group == '.undefined')
-    group = '';
-  if (status == '.undefined')
-    status = '';
-  if (level == '.undefined')
-    level = '';
-
-  $('#list_'+type).isotope({filter: '.badge_square'+group+status+level, animationEngine : 'css'});
-
-  if (!$('#list_'+type+' li').not('.isotope-hidden').length)
-    $('#no_badge_'+type).fadeIn();
-  else
-    $('#no_badge_'+type).fadeOut();
-}
-
 
 function preactivationLinkClick(module, href) {
   $.ajax({

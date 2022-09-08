@@ -2,7 +2,7 @@
 
 ## About
 
-Check your completion rate and unblock all badges to become an e-commerce expert within the blink of an eye!
+Pushes advices about your shop and modules
 
 ### Execute the test suite
 
