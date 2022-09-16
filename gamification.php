@@ -45,7 +45,7 @@ class gamification extends Module
     {
         $this->name = 'gamification';
         $this->tab = 'administration';
-        $this->version = '2.5.0';
+        $this->version = '3.0.0';
         $this->author = 'PrestaShop';
         $this->ps_versions_compliancy = [
             'min' => '1.6.1.0',
@@ -120,11 +120,6 @@ class gamification extends Module
     public function disable($force_all = false)
     {
         return parent::disable($force_all) && Tab::disablingForModule($this->name);
-    }
-
-    public function getContent()
-    {
-        Tools::redirectAdmin($this->context->link->getAdminLink('AdminGamification'));
     }
 
     public function __call($name, $arguments)
