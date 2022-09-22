@@ -7,7 +7,6 @@ require_once __DIR__ . '/mocks/ObjectModel.php';
 
 // ======== Classes ===========
 require_once __DIR__ . '/../classes/Advice.php';
-require_once __DIR__ . '/../classes/Badge.php';
 require_once __DIR__ . '/../classes/GamificationTools.php';
 
 if (!defined('_PS_VERSION_')) {
