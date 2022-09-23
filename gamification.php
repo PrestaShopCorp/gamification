@@ -48,7 +48,7 @@ class gamification extends Module
         $this->version = '3.0.0';
         $this->author = 'PrestaShop';
         $this->ps_versions_compliancy = [
-            'min' => '1.6.1.0',
+            'min' => '8.0.0',
         ];
 
         parent::__construct();
