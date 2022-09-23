@@ -30,16 +30,38 @@ class GamificationTools
     {
         $meta_data = [
             'PREFIX_' => _DB_PREFIX_,
-            ];
+        ];
         //replace define
         $content = str_replace(array_keys($meta_data), array_values($meta_data), $content);
+
+        $moduleName = null;
+        preg_match('#&module_name=(.*)&#', $content, $moduleNameMatches);
+        if (isset($moduleNameMatches[1])) {
+            $moduleName = $moduleNameMatches[1];
+        }
 
         //replace meta data
         $content = preg_replace_callback('#\{config\}([a-zA-Z0-9_-]*)\{/config\}#', function ($matches) {
             return Configuration::get($matches[1]);
         }, $content);
-        $content = preg_replace_callback('#\{link\}(.*)\{/link\}#', function ($matches) {
-            return Context::getContext()->link->getAdminLink($matches[1]);
+        $content = preg_replace_callback('#\{link\}(.*)\{/link\}#', function ($matches) use ($moduleName) {
+            $adminController = $matches[1];
+            if ('AdminModules' === $adminController) {
+                $mboIsActive = Module::isInstalled('ps_mbo') && Module::isEnabled('ps_mbo');
+                if (!$mboIsActive && !empty($moduleName)) {
+                    return sprintf('https://addons.prestashop.com/search.php?%s', http_build_query([
+                        'search_query' => $moduleName,
+                        'utm_source' => 'back-office',
+                        'utm_medium' => 'search',
+                        'utm_campaign' => 'back-office-' . Context::getContext()->language->iso_code,
+                        'utm_content' => 'download',
+                    ]));
+                }
+
+                $adminController = 'AdminPsMboModule';
+            }
+
+            return Context::getContext()->link->getAdminLink($adminController);
         }, $content);
         $content = preg_replace_callback('#\{employee\}(.*)\{/employee\}#', function ($matches) {
             return Context::getContext()->employee->$matches[1];
