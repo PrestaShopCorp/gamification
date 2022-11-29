@@ -73,7 +73,6 @@ class gamification extends Module
 
         return
             $this->installDb()
-            && Configuration::updateGlobalValue('GF_INSTALL_CALC', 0)
             && parent::install()
             && $this->registerHook('actionAdminControllerSetMedia')
             && $this->registerHook('displayBackOfficeHeader')
@@ -83,8 +82,7 @@ class gamification extends Module
 
     public function uninstall()
     {
-        if (!parent::uninstall() || !$this->uninstallDb() ||
-            !Configuration::updateGlobalValue('GF_INSTALL_CALC', 0)) {
+        if (!parent::uninstall() || !$this->uninstallDb()) {
             return false;
         }
 
