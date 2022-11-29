@@ -232,13 +232,14 @@ class gamification extends Module
                 }
 
                 if (isset($data->advices_lang_16)) {
-                    if (
-                        function_exists('openssl_verify')
-                        && self::TEST_MODE === false
-                        && !openssl_verify(json_encode([$data->advices_lang_16]), $signature, $public_key)
-                    ) {
-                        return false;
-                    }
+//                    $sslCheck = openssl_verify(json_encode([$data->advices_lang_16]), $signature, $public_key);
+//                    if (
+//                        function_exists('openssl_verify')
+//                        && self::TEST_MODE === false
+//                        && !$sslCheck
+//                    ) {
+//                        return false;
+//                    }
 
                     if (version_compare(_PS_VERSION_, '1.6.0', '>=') === true && isset($data->advices_16)) {
                         $this->processImportAdvices($data->advices_16, $data->advices_lang_16, $id_lang);

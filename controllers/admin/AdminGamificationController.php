@@ -44,6 +44,7 @@ class AdminGamificationController extends ModuleAdminController
             Configuration::updateGlobalValue('GF_INSTALL_CALC', 1);
         }
 
+        $this->processMakeDailyCalculation();
         $this->processAdviceValidation();
 
         $return['advices_to_display'] = $this->processGetAdvicesToDisplay();
@@ -108,6 +109,18 @@ class AdminGamificationController extends ModuleAdminController
                 'location' => $advice['location'],
                 'weight' => (int) $advice['weight'],
             ];
+        }
+
+        return $return;
+    }
+
+    public function processMakeDailyCalculation()
+    {
+        $return = true;
+        $condition_ids = Condition::getIdsDailyCalculation();
+        foreach ($condition_ids as $id) {
+            $condition = new Condition((int) $id);
+            $return &= $condition->processCalculation();
         }
 
         return $return;
