@@ -112,7 +112,7 @@ class gamification extends Module
 
     public function enable($force_all = false)
     {
-        return parent::enable($force_all) && Tab::enablingForModule($this->name);
+        return parent::enable($force_all) && Tab::enablingForModule($this->name) && $this->refreshDatas();
     }
 
     public function disable($force_all = false)
