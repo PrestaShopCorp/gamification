@@ -112,7 +112,15 @@ class gamification extends Module
 
     public function enable($force_all = false)
     {
-        return parent::enable($force_all) && Tab::enablingForModule($this->name) && $this->refreshDatas();
+        $enableResult = parent::enable($force_all) && Tab::enablingForModule($this->name);
+
+        if (php_sapi_name() !== 'cli') {
+            // If the module is installed/enabled tthrough CLI, we ignore the data refreshing
+            // because we cannot guess the shop context
+            $enableResult &= $this->refreshDatas();
+        }
+
+        return $enableResult;
     }
 
     public function disable($force_all = false)
@@ -211,9 +219,9 @@ class gamification extends Module
                 $this->processCleanAdvices();
 
                 $public_key = file_get_contents(__DIR__ . '/prestashop.pub');
-                $signature = isset($data->signature) ? base64_decode($data->signature) : '';
 
                 if (isset($data->conditions)) {
+                    $signature = isset($data->signature) ? base64_decode($data->signature) : '';
                     if (
                         function_exists('openssl_verify')
                         && self::TEST_MODE === false
@@ -230,14 +238,15 @@ class gamification extends Module
                 }
 
                 if (isset($data->advices_lang_16)) {
-//                    $sslCheck = openssl_verify(json_encode([$data->advices_lang_16]), $signature, $public_key);
-//                    if (
-//                        function_exists('openssl_verify')
-//                        && self::TEST_MODE === false
-//                        && !$sslCheck
-//                    ) {
-//                        return false;
-//                    }
+                    $signature16 = isset($data->signature_16) ? base64_decode($data->signature_16) : '';
+                    $sslCheck = openssl_verify(json_encode([$data->advices_lang_16]), $signature16, $public_key);
+                    if (
+                        function_exists('openssl_verify')
+                        && self::TEST_MODE === false
+                        && !$sslCheck
+                    ) {
+                        return false;
+                    }
 
                     if (version_compare(_PS_VERSION_, '1.6.0', '>=') === true && isset($data->advices_16)) {
                         $this->processImportAdvices($data->advices_16, $data->advices_lang_16, $id_lang);
