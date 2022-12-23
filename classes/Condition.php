@@ -119,6 +119,44 @@ class Condition extends ObjectModel
         return array_unique($ids);
     }
 
+    public static function getIdsDailyCalculation()
+    {
+        $ids = [];
+        $in = [];
+
+        //advice conditions validation
+        $sub_query = new DbQuery();
+        $sub_query->select('id_advice');
+        $sub_query->from('advice', 'a');
+
+        $sub_results = Db::getInstance()->executeS($sub_query);
+
+        $in = [];
+
+        foreach ($sub_results as $sub_result) {
+            $in[] = $sub_result['id_advice'];
+        }
+
+        $query = new DbQuery();
+        $query->select('c.`id_condition`');
+        $query->from('condition', 'c');
+        $query->join('LEFT JOIN `' . _DB_PREFIX_ . 'condition_advice` ca ON ca.`id_condition` = c.`id_condition`');
+        $query->where('c.`calculation_type` = \'time\'');
+        $query->where('DATEDIFF(NOW(), `date_upd`) >= `calculation_detail`');
+        $query->where('c.`validated` = 0');
+        if (count($in)) {
+            $query->where('ca.`id_advice` IN (' . implode(',', $in) . ')');
+        }
+        $query->groupBy('c.`id_condition`');
+
+        $result = Db::getInstance()->executeS($query);
+        foreach ($result as $r) {
+            $ids[] = $r['id_condition'];
+        }
+
+        return array_unique($ids);
+    }
+
     public function processCalculation()
     {
         switch ($this->type) {
