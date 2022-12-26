@@ -254,6 +254,8 @@ class gamification extends Module
                 }
             }
         }
+
+        return true;
     }
 
     public function getData($iso_lang = null)
