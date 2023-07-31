@@ -45,7 +45,7 @@ class gamification extends Module
     {
         $this->name = 'gamification';
         $this->tab = 'administration';
-        $this->version = '3.0.1';
+        $this->version = '3.0.0';
         $this->author = 'PrestaShop';
         $this->ps_versions_compliancy = [
             'min' => '8.0.0',
