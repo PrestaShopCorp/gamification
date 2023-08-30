@@ -47,6 +47,7 @@ class gamification extends Module
         $this->tab = 'administration';
         $this->version = '3.0.2';
         $this->author = 'PrestaShop';
+        $this->module_key = 'c1187d1672d2a2d33fbd7d5c29f0d42e';
         $this->ps_versions_compliancy = [
             'min' => '8.0.0',
         ];
@@ -73,7 +74,6 @@ class gamification extends Module
 
         return
             $this->installDb()
-            && Configuration::updateGlobalValue('GF_INSTALL_CALC', 0)
             && parent::install()
             && $this->registerHook('actionAdminControllerSetMedia')
             && $this->registerHook('displayBackOfficeHeader')
@@ -83,8 +83,7 @@ class gamification extends Module
 
     public function uninstall()
     {
-        if (!parent::uninstall() || !$this->uninstallDb() ||
-            !Configuration::updateGlobalValue('GF_INSTALL_CALC', 0)) {
+        if (!parent::uninstall() || !$this->uninstallDb()) {
             return false;
         }
 
@@ -114,7 +113,15 @@ class gamification extends Module
 
     public function enable($force_all = false)
     {
-        return parent::enable($force_all) && Tab::enablingForModule($this->name);
+        $enableResult = parent::enable($force_all) && Tab::enablingForModule($this->name);
+
+        if (php_sapi_name() !== 'cli') {
+            // If the module is installed/enabled tthrough CLI, we ignore the data refreshing
+            // because we cannot guess the shop context
+            $enableResult &= $this->refreshDatas();
+        }
+
+        return $enableResult;
     }
 
     public function disable($force_all = false)
@@ -213,9 +220,9 @@ class gamification extends Module
                 $this->processCleanAdvices();
 
                 $public_key = file_get_contents(__DIR__ . '/prestashop.pub');
-                $signature = isset($data->signature) ? base64_decode($data->signature) : '';
 
                 if (isset($data->conditions)) {
+                    $signature = isset($data->signature) ? base64_decode($data->signature) : '';
                     if (
                         function_exists('openssl_verify')
                         && self::TEST_MODE === false
@@ -232,10 +239,12 @@ class gamification extends Module
                 }
 
                 if (isset($data->advices_lang_16)) {
+                    $signature16 = isset($data->signature_16) ? base64_decode($data->signature_16) : '';
+                    $sslCheck = openssl_verify(json_encode([$data->advices_lang_16]), $signature16, $public_key);
                     if (
                         function_exists('openssl_verify')
                         && self::TEST_MODE === false
-                        && !openssl_verify(json_encode([$data->advices_lang_16]), $signature, $public_key)
+                        && !$sslCheck
                     ) {
                         return false;
                     }
@@ -246,6 +255,8 @@ class gamification extends Module
                 }
             }
         }
+
+        return true;
     }
 
     public function getData($iso_lang = null)
