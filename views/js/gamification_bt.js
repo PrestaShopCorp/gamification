@@ -50,7 +50,7 @@ function gamificationTasks()
 
       if (typeof jsonData.advices_premium_to_display != 'undefined')
       {
-        $('#hookDashboardZoneTwo section:eq(0)').after('<div id="premium_advice_container" class="row"></div>');
+        $('#hookDashboardZoneTwo > section:eq(0)').after('<div id="premium_advice_container" class="row"></div>');
         for (var p in jsonData.advices_premium_to_display.advices)
           if (jsonData.advices_premium_to_display.advices[p] != null && typeof jsonData.advices_premium_to_display.advices[p].html != 'undefined')
             $('#premium_advice_container').append(jsonData.advices_premium_to_display.advices[p].html);
