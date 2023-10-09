@@ -105,7 +105,7 @@ class gamification extends Module
     {
         $sql = include __DIR__ . '/sql_install.php';
         foreach ($sql as $name => $v) {
-            Db::getInstance()->execute('DROP TABLE ' . $name);
+            Db::getInstance()->execute('DROP TABLE `' . $name . '`');
         }
 
         return true;
