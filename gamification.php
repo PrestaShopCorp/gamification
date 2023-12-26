@@ -45,7 +45,7 @@ class gamification extends Module
     {
         $this->name = 'gamification';
         $this->tab = 'administration';
-        $this->version = '3.0.3';
+        $this->version = '3.0.4';
         $this->author = 'PrestaShop';
         $this->module_key = 'c1187d1672d2a2d33fbd7d5c29f0d42e';
         $this->ps_versions_compliancy = [
@@ -77,7 +77,6 @@ class gamification extends Module
             && parent::install()
             && $this->registerHook('actionAdminControllerSetMedia')
             && $this->registerHook('displayBackOfficeHeader')
-            && $this->registerHook('displayAdminAfterHeader')
        ;
     }
 
@@ -435,72 +434,5 @@ class gamification extends Module
         $now = time();
 
         return $now < $lastFileUpdate;
-    }
-
-    /**
-     * Display PrestaShop Paylater with PayPlug & Oney
-     *
-     * @return string
-     */
-    public function hookDisplayAdminAfterHeader()
-    {
-        // PrestaShop Paylater with PayPlug & Oney is available only from PrestaShop 1.7
-        if (version_compare(_PS_VERSION_, '1.7.0.0', '<') || version_compare(_PS_VERSION_, '8.0.0', '>=')) {
-            return '';
-        }
-
-        // Display PrestaShop Paylater with PayPlug & Oney only if PrestaShop Checkout is enabled and onboarded for FR & IT located merchant
-        if ('AdminPayment' === Tools::getValue('controller')
-            && in_array($this->getShopCountryCode(), ['FR', 'IT', 'ES', 'BE'], true)
-            && Module::isEnabled('ps_checkout')
-            && Configuration::get('PS_CHECKOUT_PAYPAL_ID_MERCHANT')
-        ) {
-            $this->context->smarty->assign([
-                'pspaylater_install_link' => $this->getModuleInstallUrl('pspaylater'),
-                'pspaylater_configure_link' => $this->context->link->getAdminLink('AdminModules', true) . '&configure=pspaylater',
-                'pspaylater_img_path' => $this->getPathUri() . 'views/img/pspaylater.png',
-                'pspaylater_enabled' => Module::isEnabled('pspaylater'),
-            ]);
-
-            return $this->display(__FILE__, 'displayBackOfficeHeader.tpl');
-        }
-
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    private function getShopCountryCode()
-    {
-        $defaultCountry = '';
-
-        if (empty($defaultCountry) && Configuration::hasKey('PS_COUNTRY_DEFAULT')) {
-            $defaultCountry = (new Country((int) Configuration::get('PS_COUNTRY_DEFAULT')))->iso_code;
-        }
-
-        return $defaultCountry ? strtoupper($defaultCountry) : '';
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
-    private function getModuleInstallUrl($name)
-    {
-        if (version_compare(_PS_VERSION_, '1.7.0.0', '>=')) {
-            return $this->context->link->getAdminLink(
-                'AdminModulesSf',
-                true,
-                [
-                    'route' => 'admin_module_manage_action',
-                    'action' => 'install',
-                    'module_name' => $name,
-                ]
-            );
-        }
-
-        return $this->context->link->getAdminLink('AdminModules') . '&install=' . $name . '&tab_module=payments_gateways&module_name=' . $name . '&anchor=' . ucfirst($name);
     }
 }
