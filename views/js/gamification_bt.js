@@ -77,7 +77,7 @@ function gamificationTasks()
         fancybox.fancybox();
       }
 
-      $(".preactivationLink").on('click', function(e) {
+      $(".preactivationLink").one('click', function(e) {
         e.preventDefault();
         preactivationLinkClick($(this).attr('rel'), $(this).attr('href'));
       });
