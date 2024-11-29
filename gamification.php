@@ -158,7 +158,7 @@ class gamification extends Module
             return $tab->delete();
         }
 
-        return false;
+        return true;
     }
 
     public function enable($force_all = false)
