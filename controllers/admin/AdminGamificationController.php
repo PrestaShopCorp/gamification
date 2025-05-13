@@ -39,11 +39,13 @@ class AdminGamificationController extends ModuleAdminController
 
     public function ajaxProcessGamificationTasks()
     {
-        if (!Configuration::get('GF_INSTALL_CALC')) {
-            $this->processRefreshData();
-            Configuration::updateGlobalValue('GF_INSTALL_CALC', 1);
-        }
+        // Refresh data from API, if needed
+        $this->processRefreshData();
 
+        // Recalculate not validated conditions based on time
+        $this->processMakeDailyCalculation();
+
+        // Compute advices validtion/unvalidation based on conditions
         $this->processAdviceValidation();
 
         $return['advices_to_display'] = $this->processGetAdvicesToDisplay();
@@ -108,6 +110,18 @@ class AdminGamificationController extends ModuleAdminController
                 'location' => $advice['location'],
                 'weight' => (int) $advice['weight'],
             ];
+        }
+
+        return $return;
+    }
+
+    public function processMakeDailyCalculation()
+    {
+        $return = true;
+        $condition_ids = Condition::getIdsDailyCalculation();
+        foreach ($condition_ids as $id) {
+            $condition = new Condition((int) $id);
+            $return &= $condition->processCalculation();
         }
 
         return $return;

@@ -45,8 +45,9 @@ class gamification extends Module
     {
         $this->name = 'gamification';
         $this->tab = 'administration';
-        $this->version = '3.0.0';
+        $this->version = '3.0.5';
         $this->author = 'PrestaShop';
+        $this->module_key = 'c1187d1672d2a2d33fbd7d5c29f0d42e';
         $this->ps_versions_compliancy = [
             'min' => '8.0.0',
         ];
@@ -73,18 +74,15 @@ class gamification extends Module
 
         return
             $this->installDb()
-            && Configuration::updateGlobalValue('GF_INSTALL_CALC', 0)
             && parent::install()
             && $this->registerHook('actionAdminControllerSetMedia')
             && $this->registerHook('displayBackOfficeHeader')
-            && $this->registerHook('displayAdminAfterHeader')
        ;
     }
 
     public function uninstall()
     {
-        if (!parent::uninstall() || !$this->uninstallDb() ||
-            !Configuration::updateGlobalValue('GF_INSTALL_CALC', 0)) {
+        if (!parent::uninstall() || !$this->uninstallDb()) {
             return false;
         }
 
@@ -106,7 +104,7 @@ class gamification extends Module
     {
         $sql = include __DIR__ . '/sql_install.php';
         foreach ($sql as $name => $v) {
-            Db::getInstance()->execute('DROP TABLE ' . $name);
+            Db::getInstance()->execute('DROP TABLE `' . $name . '`');
         }
 
         return true;
@@ -114,7 +112,18 @@ class gamification extends Module
 
     public function enable($force_all = false)
     {
-        return parent::enable($force_all) && Tab::enablingForModule($this->name);
+        $enableResult = parent::enable($force_all) && Tab::enablingForModule($this->name);
+
+        // If the module is installed/enabled tthrough CLI, we ignore the data refreshing
+        // because we cannot guess the shop context
+        if (php_sapi_name() !== 'cli') {
+            // Even if the result of refreshDatas is false it doesn't prevent enabling the module,
+            // some combination of country + language + currency return invalid data and we don't
+            // want these combinations to cause a bug during installation
+            $this->refreshDatas();
+        }
+
+        return $enableResult;
     }
 
     public function disable($force_all = false)
@@ -213,9 +222,9 @@ class gamification extends Module
                 $this->processCleanAdvices();
 
                 $public_key = file_get_contents(__DIR__ . '/prestashop.pub');
-                $signature = isset($data->signature) ? base64_decode($data->signature) : '';
 
                 if (isset($data->conditions)) {
+                    $signature = isset($data->signature) ? base64_decode($data->signature) : '';
                     if (
                         function_exists('openssl_verify')
                         && self::TEST_MODE === false
@@ -232,10 +241,12 @@ class gamification extends Module
                 }
 
                 if (isset($data->advices_lang_16)) {
+                    $signature16 = isset($data->signature_16) ? base64_decode($data->signature_16) : '';
+                    $sslCheck = openssl_verify(json_encode([$data->advices_lang_16]), $signature16, $public_key);
                     if (
                         function_exists('openssl_verify')
                         && self::TEST_MODE === false
-                        && !openssl_verify(json_encode([$data->advices_lang_16]), $signature, $public_key)
+                        && !$sslCheck
                     ) {
                         return false;
                     }
@@ -246,6 +257,8 @@ class gamification extends Module
                 }
             }
         }
+
+        return true;
     }
 
     public function getData($iso_lang = null)
@@ -424,72 +437,5 @@ class gamification extends Module
         $now = time();
 
         return $now < $lastFileUpdate;
-    }
-
-    /**
-     * Display PrestaShop Paylater with PayPlug & Oney
-     *
-     * @return string
-     */
-    public function hookDisplayAdminAfterHeader()
-    {
-        // PrestaShop Paylater with PayPlug & Oney is available only from PrestaShop 1.7
-        if (version_compare(_PS_VERSION_, '1.7.0.0', '<')) {
-            return '';
-        }
-
-        // Display PrestaShop Paylater with PayPlug & Oney only if PrestaShop Checkout is enabled and onboarded for FR & IT located merchant
-        if ('AdminPayment' === Tools::getValue('controller')
-            && in_array($this->getShopCountryCode(), ['FR', 'IT'], true)
-            && Module::isEnabled('ps_checkout')
-            && Configuration::get('PS_CHECKOUT_PAYPAL_ID_MERCHANT')
-        ) {
-            $this->context->smarty->assign([
-                'pspaylater_install_link' => $this->getModuleInstallUrl('pspaylater'),
-                'pspaylater_configure_link' => $this->context->link->getAdminLink('AdminModules', true) . '&configure=pspaylater',
-                'pspaylater_img_path' => $this->getPathUri() . 'views/img/pspaylater.png',
-                'pspaylater_enabled' => Module::isEnabled('pspaylater'),
-            ]);
-
-            return $this->display(__FILE__, 'displayBackOfficeHeader.tpl');
-        }
-
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    private function getShopCountryCode()
-    {
-        $defaultCountry = '';
-
-        if (empty($defaultCountry) && Configuration::hasKey('PS_COUNTRY_DEFAULT')) {
-            $defaultCountry = (new Country((int) Configuration::get('PS_COUNTRY_DEFAULT')))->iso_code;
-        }
-
-        return $defaultCountry ? strtoupper($defaultCountry) : '';
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
-    private function getModuleInstallUrl($name)
-    {
-        if (version_compare(_PS_VERSION_, '1.7.0.0', '>=')) {
-            return $this->context->link->getAdminLink(
-                'AdminModulesSf',
-                true,
-                [
-                    'route' => 'admin_module_manage_action',
-                    'action' => 'install',
-                    'module_name' => $name,
-                ]
-            );
-        }
-
-        return $this->context->link->getAdminLink('AdminModules') . '&install=' . $name . '&tab_module=payments_gateways&module_name=' . $name . '&anchor=' . ucfirst($name);
     }
 }
