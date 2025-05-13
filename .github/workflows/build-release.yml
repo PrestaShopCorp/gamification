@@ -26,12 +26,13 @@ jobs:
     update_release_draft:
         runs-on: ubuntu-latest
         needs: [deploy]
-        if: github.event_name == 'push' && github.event.ref == 'refs/heads/master'
+        #if: github.event_name == 'push' && github.event.ref == 'refs/heads/master'
         steps:
             - name: Download artifact
               uses: actions/download-artifact@v4
               with:
                   name: ${{ github.event.repository.name }}
+                  path: ${{ github.event.repository.name }}
             - id: release_info
               uses: toolmantim/release-drafter@v5
               env:
@@ -44,6 +45,7 @@ jobs:
               run: |
                   curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
                   assets=`bin/hub api -t repos/${{ github.repository }}/releases/${{ steps.release_info.outputs.id }}/assets | awk '/\].url/ { print $2 }'`
+                  echo $assets
                   for asset in $assets
                   do
                       bin/hub api -X DELETE $asset
