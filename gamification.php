@@ -45,7 +45,7 @@ class gamification extends Module
     {
         $this->name = 'gamification';
         $this->tab = 'administration';
-        $this->version = '3.0.4';
+        $this->version = '3.0.5';
         $this->author = 'PrestaShop';
         $this->module_key = 'c1187d1672d2a2d33fbd7d5c29f0d42e';
         $this->ps_versions_compliancy = [
@@ -114,10 +114,13 @@ class gamification extends Module
     {
         $enableResult = parent::enable($force_all) && Tab::enablingForModule($this->name);
 
+        // If the module is installed/enabled tthrough CLI, we ignore the data refreshing
+        // because we cannot guess the shop context
         if (php_sapi_name() !== 'cli') {
-            // If the module is installed/enabled tthrough CLI, we ignore the data refreshing
-            // because we cannot guess the shop context
-            $enableResult &= $this->refreshDatas();
+            // Even if the result of refreshDatas is false it doesn't prevent enabling the module,
+            // some combination of country + language + currency return invalid data and we don't
+            // want these combinations to cause a bug during installation
+            $this->refreshDatas();
         }
 
         return $enableResult;
