@@ -114,10 +114,13 @@ class gamification extends Module
     {
         $enableResult = parent::enable($force_all) && Tab::enablingForModule($this->name);
 
+        // If the module is installed/enabled tthrough CLI, we ignore the data refreshing
+        // because we cannot guess the shop context
         if (php_sapi_name() !== 'cli') {
-            // If the module is installed/enabled tthrough CLI, we ignore the data refreshing
-            // because we cannot guess the shop context
-            $enableResult &= $this->refreshDatas();
+            // Even if the result of refreshDatas is false it doesn't prevent enabling the module,
+            // some combination of country + language + currency return invalid data and we don't
+            // want these combinations to cause a bug during installation
+            $this->refreshDatas();
         }
 
         return $enableResult;
