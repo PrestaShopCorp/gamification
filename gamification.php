@@ -45,7 +45,7 @@ class gamification extends Module
     {
         $this->name = 'gamification';
         $this->tab = 'administration';
-        $this->version = '3.0.5';
+        $this->version = '3.0.6';
         $this->author = 'PrestaShop';
         $this->module_key = 'c1187d1672d2a2d33fbd7d5c29f0d42e';
         $this->ps_versions_compliancy = [
@@ -128,7 +128,28 @@ class gamification extends Module
 
     public function disable($force_all = false)
     {
-        return parent::disable($force_all) && Tab::disablingForModule($this->name);
+        $disabled = parent::disable($force_all);
+
+        if ($disabled) {
+            try {
+                Tab::disablingForModule($this->name);
+            } catch (PrestaShopException $exception) {
+                // We don't install tab since PS8, but can still get it if user comes from 1.7.x
+                $this->uninstallTab();
+            }
+        }
+
+        return $disabled;
+    }
+
+    public function uninstallTab()
+    {
+        $id_tab = (int) Tab::getIdFromClassName('AdminGamification');
+        if ($id_tab) {
+            $tab = new Tab($id_tab);
+
+            $tab->delete();
+        }
     }
 
     public function __call($name, $arguments)

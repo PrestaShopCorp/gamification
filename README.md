@@ -15,11 +15,13 @@ composer test
 
 ### Supported PrestaShop versions
 
-This module is compatible with 1.6.1.x and 1.7.x versions.
+This module is compatible with 1.6.1.x, 1.7.x and 8.x versions.
 
 > As of 31th of october, 2018, PrestaShop 1.6.1.x will only receives security patches.
 
 This module is maintained for 1.7.4.x and above *only*.
+
+Please, use v2.5.x for v1.7.x and below, and v3.x for v8 and above.
 
 ## Reporting issues
 
